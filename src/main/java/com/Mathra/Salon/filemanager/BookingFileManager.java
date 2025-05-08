@@ -15,11 +15,11 @@ import java.util.stream.Collectors;
  */
 @Component
 public class BookingFileManager extends AbstractFileStorageManager<Booking> {
-
+    
     private static final String DATA_DIRECTORY = "data";
     private static final String FILE_NAME = "bookings.txt";
     private static final Logger logger = LoggerFactory.getLogger(BookingFileManager.class);
-
+    
     /**
      * Constructor
      * Initializes with the data directory and file name
@@ -27,7 +27,7 @@ public class BookingFileManager extends AbstractFileStorageManager<Booking> {
     public BookingFileManager() {
         super(DATA_DIRECTORY, FILE_NAME);
     }
-
+    
     /**
      * Get the ID from a Booking object
      * @param booking The Booking object
@@ -37,7 +37,7 @@ public class BookingFileManager extends AbstractFileStorageManager<Booking> {
     protected Long getIdFromItem(Booking booking) {
         return booking.getId();
     }
-
+    
     /**
      * Create a new Booking from a file string
      * @param fileString The string from the file
@@ -53,7 +53,7 @@ public class BookingFileManager extends AbstractFileStorageManager<Booking> {
         }
         return booking;
     }
-
+    
     /**
      * Save a new booking, assigning an ID if needed
      * @param booking The booking to save
@@ -66,7 +66,7 @@ public class BookingFileManager extends AbstractFileStorageManager<Booking> {
         }
         return super.save(booking);
     }
-
+    
     /**
      * Find bookings by user ID
      * @param userId The user ID
@@ -76,13 +76,13 @@ public class BookingFileManager extends AbstractFileStorageManager<Booking> {
         if (userId == null) {
             return List.of();
         }
-
+        
         return findAll().stream()
-                .filter(booking -> booking.getUser() != null &&
+                .filter(booking -> booking.getUser() != null && 
                         userId.equals(booking.getUser().getId()))
                 .collect(Collectors.toList());
     }
-
+    
     /**
      * Find bookings by staff ID
      * @param staffId The staff ID
@@ -92,13 +92,13 @@ public class BookingFileManager extends AbstractFileStorageManager<Booking> {
         if (staffId == null) {
             return List.of();
         }
-
+        
         return findAll().stream()
-                .filter(booking -> booking.getAssignedStaff() != null &&
+                .filter(booking -> booking.getAssignedStaff() != null && 
                         staffId.equals(booking.getAssignedStaff().getId()))
                 .collect(Collectors.toList());
     }
-
+    
     /**
      * Find bookings by date
      * @param date The date
@@ -108,20 +108,20 @@ public class BookingFileManager extends AbstractFileStorageManager<Booking> {
         if (date == null) {
             return List.of();
         }
-
+        
         return findAll().stream()
                 .filter(booking -> {
                     try {
                         return date.equals(booking.getBookingDate());
                     } catch (Exception e) {
-                        logger.error("Error comparing booking date for booking ID {}: {}",
+                        logger.error("Error comparing booking date for booking ID {}: {}", 
                                 booking.getId(), e.getMessage());
                         return false;
                     }
                 })
                 .collect(Collectors.toList());
     }
-
+    
     /**
      * Find bookings by status
      * @param status The status
@@ -131,17 +131,17 @@ public class BookingFileManager extends AbstractFileStorageManager<Booking> {
         if (status == null) {
             return List.of();
         }
-
+        
         return findAll().stream()
                 .filter(booking -> {
                     try {
                         return status.equals(booking.getStatus());
                     } catch (Exception e) {
-                        logger.error("Error comparing booking status for booking ID {}: {}",
+                        logger.error("Error comparing booking status for booking ID {}: {}", 
                                 booking.getId(), e.getMessage());
                         return false;
                     }
                 })
                 .collect(Collectors.toList());
     }
-}
+} 

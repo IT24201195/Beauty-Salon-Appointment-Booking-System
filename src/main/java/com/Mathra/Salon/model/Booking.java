@@ -141,7 +141,7 @@ public class Booking implements FileStorable {
     public enum Status {
         PENDING, CONFIRMED, COMPLETED, CANCELLED
     }
-
+    
     @Override
     public String toFileString() {
         // Format: id|userId|staffId|bookingDate|bookingTime|serviceType|status|specialRequests
@@ -155,22 +155,22 @@ public class Booking implements FileStorable {
                 status.name(),
                 specialRequests != null ? specialRequests : "");
     }
-
+    
     @Override
     public FileStorable fromFileString(String fileString) {
         if (fileString == null || fileString.trim().isEmpty()) {
             return null;
         }
-
+        
         String[] parts = fileString.split("\\|");
         if (parts.length < 6) {
             // Minimum required fields: id, userId, staffId, bookingDate, bookingTime, serviceType
             return null;
         }
-
+        
         try {
             this.id = Long.parseLong(parts[0]);
-
+            
             // User and assigned staff are references, they will be set by the service layer
             // Store the IDs temporarily in User objects
             if (!parts[1].isEmpty()) {
@@ -178,30 +178,30 @@ public class Booking implements FileStorable {
                 user.setId(Long.parseLong(parts[1]));
                 this.user = user;
             }
-
+            
             if (parts[2] != null && !parts[2].isEmpty()) {
                 User staff = new User();
                 staff.setId(Long.parseLong(parts[2]));
                 this.assignedStaff = staff;
             }
-
+            
             this.bookingDate = LocalDate.parse(parts[3]);
             this.bookingTime = LocalTime.parse(parts[4]);
             this.serviceType = ServiceType.valueOf(parts[5]);
-
+            
             if (parts.length > 6) {
                 this.status = Status.valueOf(parts[6]);
             } else {
                 this.status = Status.PENDING;
             }
-
+            
             if (parts.length > 7) {
                 this.specialRequests = parts[7].isEmpty() ? null : parts[7];
             }
-
+            
             return this;
         } catch (Exception e) {
             return null;
         }
     }
-}
+} 
