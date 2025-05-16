@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Mathra Beauty Salon</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600;700&display=swap');
+        
+        :root {
+            --apple-blue: #0066CC;
+            --apple-blue-hover: #0077ED;
+            --background-color: #F5F5F7;
+            --card-background: #FFFFFF;
+            --text-color: #1D1D1F;
+            --text-secondary: #6E6E73;
+            --border-radius: 12px;
+            --shadow-sm: 0 2px 10px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 16px rgba(0,0,0,0.08);
+            --shadow-lg: 0 8px 24px rgba(0,0,0,0.12);
+            --transition: all 0.3s ease;
+        }
+        
+        body {
+            background-color: var(--background-color);
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: var(--text-color);
+            line-height: 1.47059;
+            letter-spacing: -0.022em;
+            overflow-x: hidden;
+        }
+        
+        .navbar {
+            background-color: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 1px 0 rgba(0,0,0,0.05);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .navbar-brand {
+            font-weight: 600;
+            letter-spacing: -0.5px;
+            color: var(--text-color);
+        }
+        
+        .btn-outline-dark {
+            border-radius: 20px;
+            padding: 0.5rem 1.3rem;
+            font-weight: 500;
+            transition: var(--transition);
+            border-color: var(--text-color);
+            color: var(--text-color);
+            margin-left: 0.5rem;
+        }
+        
+        .btn-outline-dark:hover {
+            background-color: var(--text-color);
+            color: white;
+            transform: scale(1.03);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .btn-primary {
+            background-color: var(--apple-blue);
+            border: none;
+            border-radius: 20px;
+            padding: 0.8rem 1.8rem;
+            font-weight: 500;
+            transition: var(--transition);
+            box-shadow: 0 4px 16px rgba(0, 102, 204, 0.3);
+        }
+        
+        .btn-primary:hover {
+            transform: scale(1.03);
+            box-shadow: 0 6px 20px rgba(0, 102, 204, 0.4);
+            background-color: var(--apple-blue-hover);
+        }
+        
+        .hero {
+            background: linear-gradient(135deg, #FFFFFF 0%, #F5F5F7 100%);
+            padding: 6rem 0;
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 5rem;
+        }
+        
+        .hero h1 {
+            font-weight: 700;
+            font-size: 3.5rem;
+            letter-spacing: -0.025em;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(90deg, #1D1D1F, #434344);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .services {
+            padding: 5rem 0;
+        }
+        
+        .services h2 {
+            font-weight: 600;
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            background: linear-gradient(90deg, #1D1D1F, #434344);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.025em;
+        }
+        
+        .service-card {
+            background-color: var(--card-background);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            box-shadow: var(--shadow-md);
+            height: 100%;
+            transition: var(--transition);
+            border: none;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .service-card h3 {
+            font-weight: 600;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            color: var(--text-color);
+        }
+        
+        .service-card p {
+            color: var(--text-secondary);
+            margin-bottom: 0;
+        }
+        
+        .testimonials {
+            background: linear-gradient(135deg, #F5F5F7 0%, #E8E8ED 100%);
+            padding: 5rem 0;
+            margin: 5rem 0;
+        }
+        
+        .testimonials h2 {
+            font-weight: 600;
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            background: linear-gradient(90deg, #1D1D1F, #434344);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.025em;
+        }
+        
+        .testimonial-card {
+            background-color: var(--card-background);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            box-shadow: var(--shadow-md);
+            height: 100%;
+            position: relative;
+            border: none;
+        }
+        
+        .testimonial-card:before {
+            content: '\201C';
+            font-family: serif;
+            position: absolute;
+            top: 1rem;
+            left: 2rem;
+            font-size: 5rem;
+            color: var(--apple-blue);
+            opacity: 0.2;
+            line-height: 1;
+        }
+        
+        .testimonial-card .quote {
+            position: relative;
+            z-index: 1;
+            color: var(--text-color);
+            font-style: italic;
+            margin-bottom: 1.5rem;
+        }
+        
+        .testimonial-card .client-name {
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: 0;
+        }
+        
+        .testimonial-card .client-title {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        .cta {
+            text-align: center;
+            padding: 5rem 0;
+        }
+        
+        .cta h2 {
+            font-weight: 600;
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(90deg, #1D1D1F, #434344);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.025em;
+        }
+        
+        .cta p {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            font-size: 1.1rem;
+        }
+        
+        footer {
+            background-color: var(--card-background);
+            padding: 2rem 0;
+            color: var(--text-secondary);
+            text-align: center;
+            font-size: 0.9rem;
+        }
+        
+        .service-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--apple-blue) 0%, #00B2FF 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        /* New styles for the enhanced landing page */
+        .bg-shape {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            z-index: -1;
+            opacity: 0.5;
+        }
+        
+        .bg-shape-1 {
+            width: 400px;
+            height: 400px;
+            background-color: rgba(0, 102, 204, 0.1);
+            top: -100px;
+            right: -100px;
+        }
+        
+        .bg-shape-2 {
+            width: 300px;
+            height: 300px;
+            background-color: rgba(255, 102, 102, 0.1);
+            bottom: -100px;
+            left: -50px;
+        }
+        
+        .about-section {
+            padding: 6rem 0;
+            position: relative;
+        }
+        
+        .about-heading {
+            font-weight: 600;
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(90deg, #1D1D1F, #434344);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.025em;
+        }
+        
+        .about-image {
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .about-image img {
+            width: 100%;
+            height: auto;
+            transition: transform 0.5s;
+        }
+        
+        .about-image:hover img {
+            transform: scale(1.05);
+        }
+        
+        .about-text {
+            padding: 2rem;
+        }
+        
+        .about-text p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+        
+        .salon-gallery {
+            padding: 5rem 0;
+            background-color: white;
+        }
+        
+        .gallery-heading {
+            font-weight: 600;
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            background: linear-gradient(90deg, #1D1D1F, #434344);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.025em;
+        }
+        
+        .gallery-item {
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+        
+        .gallery-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 1rem;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .gallery-item:hover .gallery-caption {
+            opacity: 1;
+        }
+        
+        .floating {
+            animation: floating 6s infinite ease-in-out;
+        }
+        
+        .floating-slow {
+            animation: floating 8s infinite ease-in-out;
+        }
+        
+        .floating-slower {
+            animation: floating 10s infinite ease-in-out;
+        }
+        
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .client-rating {
+            color: #FFD700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background-color: rgba(0, 102, 204, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            color: var(--apple-blue);
+            font-size: 2rem;
+        }
+        
+        .featured-review {
+            padding: 2rem;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-md);
+            margin-bottom: 2rem;
+            transition: var(--transition);
+        }
+        
+        .featured-review:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .review-stars {
+            color: #FFD700;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .review-text {
+            font-style: italic;
+            margin-bottom: 1.5rem;
+            color: var(--text-color);
+        }
+        
+        .reviewer {
+            display: flex;
+            align-items: center;
+        }
+        
+        .reviewer-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #f5f5f7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            font-weight: 600;
+            color: var(--text-color);
+            font-size: 1.2rem;
+        }
+        
+        .reviewer-info {
+            flex: 1;
+        }
+        
+        .reviewer-name {
+            font-weight: 600;
+            color: var(--text-color);
+            margin: 0;
+        }
+        
+        .review-date {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        
+        .view-more-link {
+            display: inline-block;
+            color: var(--apple-blue);
+            font-weight: 500;
+            margin-top: 1rem;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .view-more-link:hover {
+            color: var(--apple-blue-hover);
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 768px) {
+            .hero {
+                padding: 4rem 0;
+            }
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            .hero p {
+                font-size: 1rem;
+            }
+            .services h2, .testimonials h2, .cta h2, .about-heading, .gallery-heading {
+                font-size: 2rem;
+            }
+            .service-card, .testimonial-card {
+                margin-bottom: 1.5rem;
+            }
+            .about-image {
+                margin-bottom: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background shapes -->
+    <div class="bg-shape bg-shape-1 floating-slow"></div>
+    <div class="bg-shape bg-shape-2 floating"></div>
+
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <a class="navbar-brand" href="#">MATHRA BEAUTY SALON</a>
+            <div class="d-flex">
+                <a href="/login" class="btn btn-outline-dark">Login</a>
+                <a href="/register" class="btn btn-outline-dark">Register</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Add logout success alert -->
+    <div class="container mt-3">
+        <div th:if="${param.logout}" class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="fas fa-check-circle me-2"></i>You have been successfully logged out.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </div>
+
+    <section class="hero">
+        <div class="container">
+            <h1>Beauty & Relaxation in One Place</h1>
+            <p>Experience premium beauty services tailored just for you. Join our salon for a transformative journey to enhance your natural beauty.</p>
+            <div class="d-flex justify-content-center gap-3">
+                <a href="/register" class="btn btn-primary">Create an Account</a>
+                <a href="/reviews" class="btn btn-outline-dark">See Reviews</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <div class="about-image">
+                        <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Mathra Beauty Salon" class="img-fluid">
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="about-text">
+                        <h2 class="about-heading">Our Story</h2>
+                        <p>Founded in 2024, Mathra Beauty Salon has been dedicated to providing exceptional beauty services in a luxurious and relaxing environment. Our journey began with a simple mission: to help our clients look and feel their absolute best.</p>
+                        <p>With a team of experienced and passionate beauty professionals, we pride ourselves on staying at the forefront of beauty trends and techniques. We carefully select premium products that deliver outstanding results while being kind to your skin and hair.</p>
+                        <p>At Mathra, we believe that beauty is not just about appearances—it's about confidence, self-care, and well-being. Every client who walks through our doors is treated with personal attention and care, ensuring a uniquely satisfying experience every time.</p>
+                        <div class="mt-4">
+                            <a href="/booking" class="btn btn-primary">Book an Appointment</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="services">
+        <div class="container">
+            <h2>Our Premium Services</h2>
+            <div class="row">
+                <div class="col-md-6 col-lg-3 mb-4">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-cut"></i>
+                        </div>
+                        <h3>Haircut</h3>
+                        <p>Professional haircuts tailored to your style and preferences, delivered by expert stylists.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3 mb-4">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-palette"></i>
+                        </div>
+                        <h3>Hair Coloring</h3>
+                        <p>Transform your look with our expert hair coloring services using premium products.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3 mb-4">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <h3>Facial Treatment</h3>
+                        <p>Rejuvenate your skin with our specialized facial treatments for a glowing complexion.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3 mb-4">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-hand-sparkles"></i>
+                        </div>
+                        <h3>Manicure & Pedicure</h3>
+                        <p>Treat your hands and feet to our relaxing nail care services for ultimate pampering.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Salon Gallery -->
+    <section class="salon-gallery">
+        <div class="container">
+            <h2 class="gallery-heading">Our Salon</h2>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="gallery-item">
+                        <img src="https://images.unsplash.com/photo-1595476108010-b4d1f102b1b1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Salon Interior">
+                        <div class="gallery-caption">Elegant and comfortable reception area</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="gallery-item">
+                        <img src="https://images.unsplash.com/photo-1600948836101-f9ffda59d250?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Hair Styling">
+                        <div class="gallery-caption">Professional hair styling stations</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="gallery-item">
+                        <img src="https://images.unsplash.com/photo-1580618672591-eb180b1a973f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Facial Treatment">
+                        <div class="gallery-caption">Luxurious facial treatment room</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="gallery-item">
+                        <img src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Manicure Service">
+                        <div class="gallery-caption">Dedicated manicure and pedicure area</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="gallery-item">
+                        <img src="https://i.pinimg.com/736x/57/aa/2e/57aa2ef1d45e0fa0cee9d12ba0afbb7f.jpg" alt="Premium Products">
+                        <div class="gallery-caption">Premium beauty products selection</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="gallery-item">
+                        <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Relaxation Area">
+                        <div class="gallery-caption">Relaxing waiting area with refreshments</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Reviews -->
+    <section class="testimonials">
+        <div class="container">
+            <h2>What Our Clients Say</h2>
+            <div class="row mb-4">
+                <div class="col-md-6 mb-4">
+                    <div class="featured-review">
+                        <div class="review-stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p class="review-text">"The haircut and styling I received was exactly what I wanted. The stylist took the time to understand my preferences and gave helpful suggestions. The atmosphere was relaxing and the staff was professional."</p>
+                        <div class="reviewer">
+                            <div class="reviewer-avatar">
+                                <span>S</span>
+                            </div>
+                            <div class="reviewer-info">
+                                <p class="reviewer-name">Sarah Johnson</p>
+                                <p class="review-date">May 15, 2023</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                    <div class="featured-review">
+                        <div class="review-stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <p class="review-text">"Their facial treatment made my skin feel so refreshed and rejuvenated. The esthetician was knowledgeable and provided personalized recommendations for my skin type. I've been a regular client for over a year now!"</p>
+                        <div class="reviewer">
+                            <div class="reviewer-avatar">
+                                <span>E</span>
+                            </div>
+                            <div class="reviewer-info">
+                                <p class="reviewer-name">Emily Rodriguez</p>
+                                <p class="review-date">April 3, 2023</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center">
+                <a href="/reviews" class="btn btn-primary">Read More Reviews</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta">
+        <div class="container">
+            <h2>Ready to Transform Your Look?</h2>
+            <p>Join Mathra Beauty Salon today and experience our premium beauty services. Creating an account is quick and easy!</p>
+            <a href="/register" class="btn btn-primary">Create an Account</a>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <h5 class="mb-3">Contact Us</h5>
+                    <p><i class="fas fa-map-marker-alt me-2"></i>123 Beauty Lane , malabe  </p>
+                    <p><i class="fas fa-phone me-2"></i>(555) 123-4567</p>
+                    <p><i class="fas fa-envelope me-2"></i>info@sliit.mathrabeauty.com</p>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <h5 class="mb-3">Hours</h5>
+                    <p>Monday - Friday: 9AM - 8PM</p>
+                    <p>Saturday: 10AM - 6PM</p>
+                    <p>Sunday: 11AM - 5PM</p>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <h5 class="mb-3">Follow Us</h5>
+                    <div class="d-flex gap-3">
+                        <a href="#" class="text-decoration-none"><i class="fab fa-facebook fa-lg"></i></a>
+                        <a href="#" class="text-decoration-none"><i class="fab fa-instagram fa-lg"></i></a>
+                        <a href="#" class="text-decoration-none"><i class="fab fa-twitter fa-lg"></i></a>
+                        <a href="#" class="text-decoration-none"><i class="fab fa-pinterest fa-lg"></i></a>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <p class="text-center mb-0">© 2025 Mathra Beauty Salon. All rights reserved</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html> 

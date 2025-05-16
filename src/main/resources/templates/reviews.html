@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Reviews - Mathra Beauty Salon</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            background-color: #f5f5f7;
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            color: #1d1d1f;
+        }
+        
+        .navbar {
+            background-color: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: 0 1px 0 rgba(0,0,0,0.05);
+            padding: 1rem 0;
+        }
+        
+        .navbar-brand {
+            font-weight: 600;
+            letter-spacing: -0.5px;
+            color: #1d1d1f;
+        }
+        
+        .navbar-nav .nav-link {
+            color: #1d1d1f;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            transition: all 0.2s ease;
+        }
+        
+        .navbar-nav .nav-link:hover,
+        .navbar-nav .nav-link.active {
+            color: #0066cc;
+        }
+        
+        .btn-outline-dark {
+            border-radius: 20px;
+            padding: 0.4rem 1.2rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            border-color: #1d1d1f;
+            color: #1d1d1f;
+        }
+        
+        .btn-outline-dark:hover {
+            background-color: #1d1d1f;
+            color: white;
+            transform: scale(1.03);
+        }
+        
+        .btn-primary {
+            background-color: #0071e3;
+            border: none;
+            border-radius: 20px;
+            padding: 0.75rem 1.5rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+        
+        .btn-primary:hover {
+            background-color: #0077ed;
+            transform: scale(1.03);
+        }
+        
+        .card {
+            border: none;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+        
+        .card-header {
+            background-color: #f5f5f7;
+            border-bottom: none;
+            padding: 1.5rem;
+        }
+        
+        .card-body {
+            padding: 2rem;
+        }
+        
+        .main-container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        
+        .page-heading {
+            font-weight: 700;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            color: #1d1d1f;
+            text-align: center;
+        }
+        
+        .page-subheading {
+            font-size: 1.25rem;
+            color: #6e6e73;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .rating-summary {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background-color: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+        
+        .average-rating {
+            font-size: 4rem;
+            font-weight: 700;
+            color: #1d1d1f;
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+        
+        .rating-stars {
+            font-size: 1.5rem;
+            color: #ffcc00;
+            margin-bottom: 0.5rem;
+        }
+        
+        .rating-count {
+            color: #6e6e73;
+            font-size: 1rem;
+        }
+        
+        .review-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .review-card {
+            background-color: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            padding: 1.5rem;
+            transition: transform 0.2s;
+        }
+        
+        .review-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .review-rating {
+            color: #ffcc00;
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+        }
+        
+        .review-content {
+            color: #1d1d1f;
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .review-user {
+            display: flex;
+            align-items: center;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 0.75rem;
+            color: #1d1d1f;
+            font-weight: 600;
+        }
+        
+        .user-info {
+            flex: 1;
+        }
+        
+        .user-name {
+            font-weight: 600;
+            color: #1d1d1f;
+            font-size: 0.875rem;
+        }
+        
+        .review-date {
+            color: #6e6e73;
+            font-size: 0.75rem;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+        }
+        
+        .empty-icon {
+            font-size: 4rem;
+            color: #d2d2d7;
+            margin-bottom: 1.5rem;
+        }
+        
+        .cta-section {
+            text-align: center;
+            margin-top: 2rem;
+            margin-bottom: 4rem;
+            padding: 2rem;
+            background-color: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+        
+        .cta-heading {
+            font-weight: 600;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .cta-text {
+            color: #6e6e73;
+            margin-bottom: 1.5rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <a class="navbar-brand" href="#">MATHRA BEAUTY SALON</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/"><i class="fas fa-home me-1"></i>Home</a>
+                    </li>
+                    <li sec:authorize="isAuthenticated()" class="nav-item">
+                        <a class="nav-link" href="/booking"><i class="fas fa-calendar-plus me-1"></i>Book Appointment</a>
+                    </li>
+                    <li sec:authorize="isAuthenticated()" class="nav-item">
+                        <a class="nav-link" href="/bookings"><i class="fas fa-calendar-check me-1"></i>My Bookings</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/reviews"><i class="fas fa-star me-1"></i>Reviews</a>
+                    </li>
+                </ul>
+                <div sec:authorize="isAuthenticated()" class="d-flex align-items-center">
+                    <span class="navbar-text me-3">
+                        <i class="fas fa-user-circle me-1"></i>Welcome, <span sec:authentication="name">User</span>
+                    </span>
+                    <form th:action="@{/logout}" method="post">
+                        <button type="submit" class="btn btn-outline-dark"><i class="fas fa-sign-out-alt me-1"></i>Logout</button>
+                    </form>
+                </div>
+                <div sec:authorize="!isAuthenticated()" class="d-flex">
+                    <a href="/login" class="btn btn-outline-dark me-2"><i class="fas fa-sign-in-alt me-1"></i>Login</a>
+                    <a href="/register" class="btn btn-outline-dark"><i class="fas fa-user-plus me-1"></i>Register</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container main-container">
+        <h1 class="page-heading">Customer Reviews</h1>
+        <p class="page-subheading">See what our clients are saying about Mathra Beauty Salon</p>
+        
+        <div class="rating-summary">
+            <div class="average-rating">
+                <span th:text="${#numbers.formatDecimal(averageRating, 1, 1)}">4.5</span>
+            </div>
+            <div class="rating-stars">
+                <span th:each="i : ${#numbers.sequence(1, 5)}">
+                    <i th:class="${i <= averageRating ? 'fas fa-star' : (i <= averageRating + 0.5 ? 'fas fa-star-half-alt' : 'far fa-star')}"></i>
+                </span>
+            </div>
+            <div class="rating-count">
+                <span th:text="${reviews.size()}">15</span> reviews
+            </div>
+        </div>
+        
+        <div th:if="${reviews.empty}" class="empty-state">
+            <div class="empty-icon">
+                <i class="far fa-comment-dots"></i>
+            </div>
+            <h3>No Reviews Yet</h3>
+            <p class="text-muted">Be the first to share your experience!</p>
+        </div>
+        
+        <div th:unless="${reviews.empty}" class="review-grid">
+            <div th:each="review : ${reviews}" class="review-card">
+                <div class="review-rating">
+                    <span th:each="i : ${#numbers.sequence(1, review.rating)}">
+                        <i class="fas fa-star"></i>
+                    </span>
+                    <span th:each="i : ${#numbers.sequence(review.rating + 1, 5)}">
+                        <i class="far fa-star"></i>
+                    </span>
+                </div>
+                
+                <p class="review-content" th:text="${review.comment}">
+                    This is a sample review content. The salon provided excellent service.
+                </p>
+                
+                <div class="review-user">
+                    <div class="user-avatar">
+                        <span th:text="${#strings.substring(review.user.fullName, 0, 1)}">J</span>
+                    </div>
+                    <div class="user-info">
+                        <div class="user-name" th:text="${review.user.fullName}">John Doe</div>
+                        <div class="review-date" th:text="${#temporals.format(review.createdAt, 'dd MMM yyyy')}">01 Jan 2023</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="cta-section">
+            <h2 class="cta-heading">Share Your Experience</h2>
+            <p class="cta-text">
+                We value your feedback and would love to hear about your experience at Mathra Beauty Salon.
+                Your reviews help us improve our services and assist others in making informed decisions.
+            </p>
+            <a th:if="${#authorization.expression('isAuthenticated()')}" href="/review/new" class="btn btn-primary">
+                <i class="fas fa-star me-2"></i>Write a Review
+            </a>
+            <a th:if="${#authorization.expression('!isAuthenticated()')}" href="/login" class="btn btn-primary">
+                <i class="fas fa-sign-in-alt me-2"></i>Login to Write a Review
+            </a>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html> 

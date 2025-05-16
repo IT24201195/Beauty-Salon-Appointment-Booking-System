@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Mathra Beauty Salon</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            background-color: #ffffff;
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            color: #333333;
+        }
+        .container {
+            max-width: 430px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        .form-title {
+            font-size: 27px;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            color: #111111;
+        }
+        .form-subtitle {
+            font-size: 16px;
+            font-weight: 400;
+            margin-bottom: 2rem;
+            text-align: center;
+            color: #86868b;
+        }
+        .form-control {
+            border-radius: 8px;
+            padding: 12px 15px;
+            height: auto;
+            border: 1px solid #d2d2d7;
+            background-color: #ffffff;
+            transition: all 0.2s ease;
+            margin-bottom: 1.25rem;
+        }
+        .form-control:focus {
+            border-color: #0066cc;
+            box-shadow: 0 0 0 0.25rem rgba(0, 102, 204, 0.1);
+        }
+        .form-label {
+            font-weight: 500;
+            font-size: 14px;
+            color: #333333;
+            margin-bottom: 0.5rem;
+        }
+        .btn-primary {
+            background-color: #0071e3;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 20px;
+            font-size: 16px;
+            font-weight: 500;
+            width: 100%;
+            transition: all 0.2s ease;
+        }
+        .btn-primary:hover {
+            background-color: #0077ed;
+            transform: scale(1.01);
+        }
+        .alert {
+            border-radius: 8px;
+            font-size: 14px;
+            padding: 0.75rem 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .register-link {
+            text-align: center;
+            margin-top: 1.5rem;
+            font-size: 14px;
+        }
+        .register-link a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+        .register-link a:hover {
+            text-decoration: underline;
+        }
+        .back-link {
+            text-align: center;
+            margin-top: 2rem;
+            font-size: 14px;
+        }
+        .back-link a {
+            color: #515154;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+        }
+        .back-link a:hover {
+            color: #0066cc;
+        }
+        .back-link i {
+            font-size: 0.75rem;
+            margin-right: 0.5rem;
+        }
+        .form-floating {
+            position: relative;
+            margin-bottom: 1.25rem;
+        }
+        .form-floating label {
+            padding: 1rem 0.75rem;
+        }
+        .form-floating input {
+            height: 58px;
+        }
+        .form-check-input {
+            width: 18px;
+            height: 18px;
+            margin-top: 0.15em;
+            border: 1px solid #d2d2d7;
+        }
+        .form-check-input:checked {
+            background-color: #0066cc;
+            border-color: #0066cc;
+        }
+        .form-check-input:focus {
+            border-color: #0066cc;
+            box-shadow: 0 0 0 0.25rem rgba(0, 102, 204, 0.1);
+        }
+        .form-check-label {
+            color: #515154;
+            font-size: 14px;
+        }
+        .staff-info {
+            margin-top: 2rem;
+            padding: 1rem;
+            background-color: #f5f5f7;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 14px;
+            color: #515154;
+        }
+        .staff-info p {
+            margin-bottom: 0;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1 class="form-title">Sign in to your account</h1>
+        <p class="form-subtitle">Access your Mathra Beauty Salon services</p>
+        
+        <div th:if="${param.error}" class="alert alert-danger">
+            <i class="fas fa-exclamation-circle me-2"></i>Invalid username or password.
+        </div>
+        <div th:if="${param.logout}" class="alert alert-success">
+            <i class="fas fa-check-circle me-2"></i>You have been logged out successfully.
+        </div>
+        <div th:if="${param.registrationSuccess}" class="alert alert-success">
+            <i class="fas fa-check-circle me-2"></i>Registration successful! You can now login.
+        </div>
+        
+        <form th:action="@{/login}" method="post">
+            <div class="form-floating">
+                <input type="text" class="form-control" id="username" name="username" placeholder="Username" required>
+                <label for="username">Username</label>
+            </div>
+            
+            <div class="form-floating">
+                <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+                <label for="password">Password</label>
+            </div>
+            
+            <div class="mb-4 form-check">
+                <input type="checkbox" class="form-check-input" id="remember-me" name="remember-me">
+                <label class="form-check-label" for="remember-me">Keep me signed in</label>
+            </div>
+            
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-sign-in-alt me-2"></i>Sign In
+            </button>
+        </form>
+        
+        <div class="register-link">
+            Don't have an account? <a th:href="@{/register}">Create one now</a>
+        </div>
+        
+        <div class="staff-info">
+            <p><i class="fas fa-info-circle me-2"></i>For staff access, use your staff credentials</p>
+            <p class="small mt-1">Staff members login here with their username and password</p>
+        </div>
+        
+        <div class="back-link">
+            <a th:href="@{/}">
+                <i class="fas fa-chevron-left"></i> Back to Home
+            </a>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html> 
