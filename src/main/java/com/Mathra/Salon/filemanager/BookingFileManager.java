@@ -1,6 +1,6 @@
 package com.Mathra.Salon.filemanager;
 
-import com.mathra.salon.model.Booking;
+import com.Mathra.Salon.model.Booking;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;

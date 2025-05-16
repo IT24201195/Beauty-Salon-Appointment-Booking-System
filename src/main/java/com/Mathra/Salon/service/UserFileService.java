@@ -1,6 +1,6 @@
 package com.Mathra.Salon.service;
 
-import com.mathra.salon.filemanager.UserFileManager;
+import com.Mathra.Salon.filemanager.UserFileManager;
 import com.Mathra.Salon.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

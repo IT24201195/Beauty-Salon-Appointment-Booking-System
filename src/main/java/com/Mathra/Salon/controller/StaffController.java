@@ -1,6 +1,6 @@
 package com.Mathra.Salon.controller;
 
-import com.mathra.salon.model.Booking;
+import com.Mathra.Salon.model.Booking;
 import com.Mathra.Salon.model.User;
 import com.Mathra.Salon.service.BookingFileService;
 import com.Mathra.Salon.service.UserFileService;

@@ -1,6 +1,6 @@
 package com.Mathra.Salon.model;
 
-import com.mathra.salon.filemanager.FileStorable;
+import com.Mathra.Salon.filemanager.FileStorable;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
