@@ -1,7 +1,7 @@
 package com.Mathra.Salon.service;
 
 import com.mathra.salon.model.Booking;
-import com.mathra.salon.model.User;
+import com.Mathra.Salon.model.User;
 import com.mathra.salon.repository.BookingRepository;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;

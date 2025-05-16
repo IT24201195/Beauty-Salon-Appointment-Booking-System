@@ -1,7 +1,7 @@
 package com.Mathra.Salon.repository;
 
 import com.mathra.salon.model.Booking;
-import com.mathra.salon.model.User;
+import com.Mathra.Salon.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

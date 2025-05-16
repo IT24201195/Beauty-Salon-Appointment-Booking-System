@@ -1,4 +1,4 @@
-package com.mathra.salon.controller;
+package com.Mathra.Salon.controller;
 
 import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;

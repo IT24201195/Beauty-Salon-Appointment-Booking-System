@@ -1,7 +1,7 @@
-package com.mathra.salon.service;
+package com.Mathra.Salon.service;
 
-import com.mathra.salon.model.Review;
-import com.mathra.salon.model.User;
+import com.Mathra.Salon.model.Review;
+import com.Mathra.Salon.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,13 +22,13 @@ import java.util.stream.Collectors;
 public class ReviewFileService {
 
     private static final String REVIEWS_FILE = "data/reviews.ser";
-    private final com.mathra.salon.service.UserFileService userFileService;
+    private final UserFileService userFileService;
 
     private List<Review> reviews;
     private long nextId = 1;
 
     @Autowired
-    public ReviewFileService(com.mathra.salon.service.UserFileService userFileService) {
+    public ReviewFileService(UserFileService userFileService) {
         this.userFileService = userFileService;
         this.reviews = new ArrayList<>();
         loadReviews();

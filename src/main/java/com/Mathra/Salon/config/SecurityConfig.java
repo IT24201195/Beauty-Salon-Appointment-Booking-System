@@ -1,6 +1,6 @@
-package com.mathra.salon.config;
+package com.Mathra.Salon.config;
 
-import com.mathra.salon.service.UserFileService;
+import com.Mathra.Salon.service.UserFileService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;

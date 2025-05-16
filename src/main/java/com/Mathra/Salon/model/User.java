@@ -1,4 +1,4 @@
-package com.mathra.salon.model;
+package com.Mathra.Salon.model;
 
 import com.mathra.salon.filemanager.FileStorable;
 import jakarta.persistence.*;

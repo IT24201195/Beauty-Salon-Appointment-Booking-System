@@ -1,9 +1,9 @@
-package com.mathra.salon.config;
+package com.Mathra.Salon.config;
 
-import com.mathra.salon.model.Booking;
-import com.mathra.salon.model.User;
-import com.mathra.salon.filemanager.BookingFileManager;
-import com.mathra.salon.filemanager.UserFileManager;
+import com.Mathra.Salon.model.Booking;
+import com.Mathra.Salon.model.User;
+import com.Mathra.Salon.filemanager.BookingFileManager;
+import com.Mathra.Salon.filemanager.UserFileManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

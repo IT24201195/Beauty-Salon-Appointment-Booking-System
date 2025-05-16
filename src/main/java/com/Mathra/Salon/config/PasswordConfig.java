@@ -1,4 +1,4 @@
-package com.mathra.salon.config;
+package com.Mathra.Salon.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

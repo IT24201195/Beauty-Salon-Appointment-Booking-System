@@ -1,4 +1,4 @@
-package com.mathra.salon.model;
+package com.Mathra.Salon.model;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -12,7 +12,7 @@ public class Review implements Serializable {
 
     private Long id;
     private Long userId; // Store user ID instead of User object
-    private transient com.mathra.salon.model.User user; // Keep transient for runtime use
+    private transient User user; // Keep transient for runtime use
     private int rating; // 1-5 stars
     private String comment;
     private LocalDateTime createdAt;
@@ -23,7 +23,7 @@ public class Review implements Serializable {
         this.approved = false;
     }
 
-    public Review(com.mathra.salon.model.User user, int rating, String comment) {
+    public Review(User user, int rating, String comment) {
         this.user = user;
         this.userId = user != null ? user.getId() : null;
         this.rating = rating;
@@ -48,11 +48,11 @@ public class Review implements Serializable {
         this.userId = userId;
     }
 
-    public com.mathra.salon.model.User getUser() {
+    public User getUser() {
         return user;
     }
 
-    public void setUser(com.mathra.salon.model.User user) {
+    public void setUser(User user) {
         this.user = user;
         this.userId = user != null ? user.getId() : null;
     }

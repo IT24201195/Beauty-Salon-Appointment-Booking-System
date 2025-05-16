@@ -1,11 +1,10 @@
-package com.mathra.salon.controller;
+package com.Mathra.Salon.controller;
 
 import com.mathra.salon.model.Booking;
-import com.mathra.salon.model.User;
-import com.mathra.salon.service.BookingFileService;
-import com.mathra.salon.service.UserFileService;
+import com.Mathra.Salon.model.User;
+import com.Mathra.Salon.service.BookingFileService;
+import com.Mathra.Salon.service.UserFileService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -30,8 +29,8 @@ import java.util.Map;
  *
  * All paths begin with "/staff" and are secured to require staff or admin role.
  *
- * @see com.mathra.salon.service.BookingFileService
- * @see com.mathra.salon.service.UserFileService
+ * @see BookingFileService
+ * @see UserFileService
  */
 @Controller
 @RequestMapping("/staff")
