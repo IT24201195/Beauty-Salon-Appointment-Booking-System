@@ -1,6 +1,6 @@
-package com.mathra.salon.filemanager;
+package com.Mathra.Salon.filemanager;
 
-import com.mathra.salon.model.User;
+import com.Mathra.Salon.model.User;
 import org.springframework.stereotype.Component;
 
 /**

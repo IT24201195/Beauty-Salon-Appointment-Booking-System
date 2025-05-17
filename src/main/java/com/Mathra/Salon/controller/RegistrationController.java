@@ -1,7 +1,7 @@
-package com.mathra.salon.controller;
+package com.Mathra.Salon.controller;
 
-import com.mathra.salon.model.User;
-import com.mathra.salon.service.UserFileService;
+import com.Mathra.Salon.model.User;
+import com.Mathra.Salon.service.UserFileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
