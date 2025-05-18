@@ -1,6 +1,5 @@
 package com.Mathra.Salon.service;
 
-import com.Mathra.Salon.model.Review;
 import com.Mathra.Salon.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
