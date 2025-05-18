@@ -1,5 +1,6 @@
 package com.Mathra.Salon.service;
 
+import com.Mathra.Salon.model.Review;
 import com.Mathra.Salon.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -196,7 +197,12 @@ public class ReviewFileService {
     @SuppressWarnings("unchecked")
     private void loadReviews() {
         Path filePath = Paths.get(REVIEWS_FILE);
-        if (!Files.exists(filePath)) {
+        try {
+            if (!Files.exists(filePath) || Files.size(filePath) == 0) {
+                reviews = new ArrayList<>();
+                return;
+            }
+        } catch (IOException e) {
             reviews = new ArrayList<>();
             return;
         }
@@ -218,7 +224,9 @@ public class ReviewFileService {
                 }
             }
         } catch (IOException | ClassNotFoundException e) {
-            throw new RuntimeException("Failed to load reviews: " + e.getMessage(), e);
+            // If there's an error reading the file, start with empty reviews
+            reviews = new ArrayList<>();
+            System.err.println("Warning: Failed to load reviews, starting with empty list: " + e.getMessage());
         }
     }
 }
