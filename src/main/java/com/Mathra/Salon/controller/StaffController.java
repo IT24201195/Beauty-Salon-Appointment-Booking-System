@@ -5,6 +5,7 @@ import com.Mathra.Salon.model.User;
 import com.Mathra.Salon.service.BookingFileService;
 import com.Mathra.Salon.service.UserFileService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -29,8 +30,8 @@ import java.util.Map;
  *
  * All paths begin with "/staff" and are secured to require staff or admin role.
  *
- * @see BookingFileService
- * @see UserFileService
+ * @see com.Mathra.Salon.service.BookingFileService
+ * @see com.Mathra.Salon.service.UserFileService
  */
 @Controller
 @RequestMapping("/staff")

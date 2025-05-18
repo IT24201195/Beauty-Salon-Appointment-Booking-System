@@ -27,7 +27,7 @@ public class MainController {
     public String welcome() {
         return "welcome";
     }
-    
+
     /**
      * Alias for welcome page
      */
@@ -35,7 +35,7 @@ public class MainController {
     public String welcomeAlias() {
         return "welcome";
     }
-    
+
     /**
      * Home page (requires login)
      * Redirects based on user role
@@ -44,14 +44,14 @@ public class MainController {
     public String home(Authentication authentication) {
         // Check if user has STAFF role
         if (authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_STAFF")) ||
-            authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
+                authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
             return "redirect:/staff/dashboard";
         }
-        
+
         // For customers and other roles
         return "home";
     }
-    
+
     /**
      * Login page
      */
@@ -59,7 +59,7 @@ public class MainController {
     public String login() {
         return "login";
     }
-    
+
     /**
      * Registration page
      */
@@ -67,4 +67,4 @@ public class MainController {
     public String register() {
         return "register";
     }
-} 
+}

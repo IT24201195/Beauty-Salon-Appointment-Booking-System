@@ -18,19 +18,19 @@ import java.time.LocalTime;
 public class DataInitializer implements CommandLineRunner {
 
     private static final Logger logger = LoggerFactory.getLogger(DataInitializer.class);
-    
+
     private final PasswordEncoder passwordEncoder;
     private final UserFileManager userFileManager;
     private final BookingFileManager bookingFileManager;
-    
+
     @Autowired
-    public DataInitializer(PasswordEncoder passwordEncoder, 
+    public DataInitializer(PasswordEncoder passwordEncoder,
                            UserFileManager userFileManager,
                            BookingFileManager bookingFileManager) {
         this.passwordEncoder = passwordEncoder;
         this.userFileManager = userFileManager;
         this.bookingFileManager = bookingFileManager;
-        
+
         logger.info("DataInitializer created with file storage only");
     }
 
@@ -41,7 +41,7 @@ public class DataInitializer implements CommandLineRunner {
             initializeData();
         }
     }
-    
+
     private void initializeData() {
         // Create admin user
         User admin = new User();
@@ -106,7 +106,7 @@ public class DataInitializer implements CommandLineRunner {
         booking3.setBookingTime(LocalTime.of(16, 0));
         booking3.setServiceType(Booking.ServiceType.FACIAL);
         booking3.setStatus(Booking.Status.PENDING);
-        
+
         // Save bookings to file storage
         bookingFileManager.save(booking1);
         bookingFileManager.save(booking2);
@@ -115,4 +115,4 @@ public class DataInitializer implements CommandLineRunner {
 
         logger.info("Sample data has been populated!");
     }
-} 
+}
