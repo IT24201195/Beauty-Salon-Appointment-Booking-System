@@ -1,16 +1,3 @@
-/**
- * Mathra Beauty Salon - Main JavaScript File
- * 
- * This file handles all interactive elements on the website:
- * - Smooth scrolling navigation
- * - Form validation for booking system
- * - Interactive UI elements
- * 
- * Note for Windows users: 
- * - This JavaScript should work in all modern browsers (Chrome, Edge, Firefox)
- * - No special configuration needed for Windows environments
- */
-
 
 document.addEventListener('DOMContentLoaded', function() {
     // ====== NAVIGATION ======
@@ -19,9 +6,9 @@ document.addEventListener('DOMContentLoaded', function() {
         anchor.addEventListener('click', function(e) {
             e.preventDefault();
             const targetId = this.getAttribute('href');
-
+            
             if(targetId === '#') return; // Skip if it's just "#" (home link)
-
+            
             const targetElement = document.querySelector(targetId);
             if(targetElement) {
                 window.scrollTo({
@@ -40,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const dd = String(today.getDate()).padStart(2, '0');
         const mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
         const yyyy = today.getFullYear();
-
+        
         const todayFormatted = yyyy + '-' + mm + '-' + dd;
         dateInput.setAttribute('min', todayFormatted);
     }
@@ -53,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if(timeInput) {
                 const selectedTime = timeInput.value;
                 const hour = parseInt(selectedTime.split(':')[0]);
-
+                
                 // Check if selected time is within business hours (9AM - 7PM)
                 if(hour < 9 || hour >= 19) {
                     e.preventDefault();
@@ -70,26 +57,10 @@ document.addEventListener('DOMContentLoaded', function() {
         card.addEventListener('mouseenter', function() {
             this.style.backgroundColor = '#fff8f8'; // Light pink background on hover
         });
-
+        
         card.addEventListener('mouseleave', function() {
             this.style.backgroundColor = '#ffffff'; // Back to white
         });
     });
 
-    // ====== FUTURE DEVELOPMENT ======
-    // Mobile menu toggle functionality (currently commented out, implement if needed)
-    // Uncomment and modify this code if adding a mobile hamburger menu
-    // const menuToggle = document.querySelector('.menu-toggle');
-    // const nav = document.querySelector('nav ul');
-    // if(menuToggle && nav) {
-    //     menuToggle.addEventListener('click', function() {
-    //         nav.classList.toggle('show');
-    //     });
-    // }
-    
-    // ====== TROUBLESHOOTING ======
-    // If the form submission isn't working:
-    // 1. Check that booking_confirmation.html exists in the same directory
-    // 2. Verify all form fields have the correct 'name' attributes
-    // 3. For Windows users, ensure file paths use forward slashes (/) not backslashes (\)
 }); 
