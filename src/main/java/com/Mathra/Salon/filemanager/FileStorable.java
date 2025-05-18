@@ -1,34 +1,18 @@
 package com.Mathra.Salon.filemanager;
 
 /**
- * Interface for objects that can be stored in a file
- * Implementations should provide methods to convert to/from a string
+ * Interface for objects that can be stored in files
  */
 public interface FileStorable {
-    
     /**
-     * Convert the object to a string for file storage
-     * @return A string representation of the object for file storage
+     * Convert the object to a string representation for file storage
+     * @return A string representation of the object
      */
     String toFileString();
-    
+
     /**
-     * Populate the object from a file string
-     *
-     * @param fileString String representation from the file
+     * Initialize the object from a string representation from a file
+     * @param fileString The string representation from the file
      */
     void fromFileString(String fileString);
-    
-    /**
-     * Get the ID of the object
-     * @return The ID
-     */
-    Long getId();
-    
-    /**
-     * Set the ID of the object
-     * 
-     * @param id The ID to set
-     */
-    void setId(Long id);
-} 
+}

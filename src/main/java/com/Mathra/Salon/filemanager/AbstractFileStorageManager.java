@@ -1,9 +1,11 @@
 package com.Mathra.Salon.filemanager;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -11,18 +13,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Abstract base class for file-based storage implementations
  * @param <T> The type of object to store, must implement FileStorable
  */
 public abstract class AbstractFileStorageManager<T extends FileStorable> {
-    
+
     private final Logger logger = LoggerFactory.getLogger(AbstractFileStorageManager.class);
     private final String dataDirectory;
     private final String fileName;
     private final AtomicLong idSequence = new AtomicLong(1);
-    
+
     /**
      * Constructor
      * @param dataDirectory The directory to store files in
@@ -33,7 +37,7 @@ public abstract class AbstractFileStorageManager<T extends FileStorable> {
         this.fileName = fileName;
         initializeStorage();
     }
-    
+
     /**
      * Initialize the storage - create directory and file if needed
      */
@@ -44,7 +48,7 @@ public abstract class AbstractFileStorageManager<T extends FileStorable> {
                 Files.createDirectories(dirPath);
                 logger.info("Created directory: {}", dirPath);
             }
-            
+
             Path filePath = Paths.get(dataDirectory, fileName);
             if (!Files.exists(filePath)) {
                 Files.createFile(filePath);
@@ -65,7 +69,7 @@ public abstract class AbstractFileStorageManager<T extends FileStorable> {
             throw new RuntimeException("Failed to initialize storage: " + e.getMessage(), e);
         }
     }
-    
+
     /**
      * Get the next available ID
      * @return A new unique ID
@@ -73,28 +77,28 @@ public abstract class AbstractFileStorageManager<T extends FileStorable> {
     protected Long getNextId() {
         return idSequence.getAndIncrement();
     }
-    
+
     /**
      * Get the ID from an item
      * @param item The item
      * @return The ID
      */
     protected abstract Long getIdFromItem(T item);
-    
+
     /**
      * Create an item from a file string
      * @param fileString The string from the file
      * @return The created item
      */
     protected abstract T createFromFileString(String fileString);
-    
+
     /**
      * Find all items
      * @return List of all items
      */
     public List<T> findAll() {
         List<T> items = new ArrayList<>();
-        
+
         try (BufferedReader reader = new BufferedReader(new FileReader(dataDirectory + File.separator + fileName))) {
             String line;
             while ((line = reader.readLine()) != null) {
@@ -110,10 +114,10 @@ public abstract class AbstractFileStorageManager<T extends FileStorable> {
             logger.error("Error reading from file: {}", e.getMessage(), e);
             throw new RuntimeException("Error reading from file: " + e.getMessage(), e);
         }
-        
+
         return items;
     }
-    
+
     /**
      * Find an item by ID
      * @param id The ID
@@ -123,12 +127,12 @@ public abstract class AbstractFileStorageManager<T extends FileStorable> {
         if (id == null) {
             return Optional.empty();
         }
-        
+
         return findAll().stream()
                 .filter(item -> id.equals(getIdFromItem(item)))
                 .findFirst();
     }
-    
+
     /**
      * Save an item
      * @param item The item to save
@@ -139,23 +143,23 @@ public abstract class AbstractFileStorageManager<T extends FileStorable> {
             logger.error("Cannot save null item");
             return false;
         }
-        
+
         List<T> items = findAll();
         Long itemId = getIdFromItem(item);
-        
+
         // Remove existing item with same ID if present
         if (itemId != null) {
             items.removeIf(existingItem -> itemId.equals(getIdFromItem(existingItem)));
         }
-        
+
         // Add the new or updated item
         items.add(item);
         logger.debug("Saving item with ID: {}", itemId);
-        
+
         // Write all items back to the file
         return writeToFile(items);
     }
-    
+
     /**
      * Delete an item by ID
      * @param id The ID of the item to delete
@@ -166,19 +170,19 @@ public abstract class AbstractFileStorageManager<T extends FileStorable> {
             logger.error("Cannot delete item with null ID");
             return false;
         }
-        
+
         List<T> items = findAll();
         boolean removed = items.removeIf(item -> id.equals(getIdFromItem(item)));
-        
+
         if (removed) {
             logger.debug("Deleted item with ID: {}", id);
             return writeToFile(items);
         }
-        
+
         logger.debug("Item with ID {} not found for deletion", id);
         return false;
     }
-    
+
     /**
      * Write a list of items to the file
      * @param items The items to write
@@ -197,4 +201,4 @@ public abstract class AbstractFileStorageManager<T extends FileStorable> {
             throw new RuntimeException("Error writing to file: " + e.getMessage(), e);
         }
     }
-} 
+}
