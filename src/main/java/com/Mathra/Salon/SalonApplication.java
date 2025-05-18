@@ -12,9 +12,12 @@ import org.springframework.context.annotation.FilterType;
         DataSourceAutoConfiguration.class,
         HibernateJpaAutoConfiguration.class
 })
-@ComponentScan(excludeFilters = {
+@ComponentScan(
+    basePackages = "com.Mathra.Salon",
+    excludeFilters = {
         @ComponentScan.Filter(type = FilterType.REGEX, pattern = "com\\.Mathra\\.Salon\\.service\\.BookingService")
-})
+    }
+)
 public class SalonApplication {
 
     public static void main(String[] args) {
