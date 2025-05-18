@@ -1,501 +1,106 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manage Reviews - Mathra Beauty Salon</title>
+    <title>Page Not Found - Mathra Beauty Salon</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600;700&display=swap');
+        
+        :root {
+            --apple-blue: #0066CC;
+            --apple-blue-hover: #0077ED;
+            --background-color: #F5F5F7;
+            --card-background: #FFFFFF;
+            --text-color: #1D1D1F;
+            --text-secondary: #6E6E73;
+            --border-radius: 12px;
+            --shadow-sm: 0 2px 10px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 16px rgba(0,0,0,0.08);
+            --shadow-lg: 0 8px 24px rgba(0,0,0,0.12);
+            --transition: all 0.3s ease;
+        }
+        
         body {
-            background-color: #f5f5f7;
+            background-color: var(--background-color);
             font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
-            color: #1d1d1f;
+            color: var(--text-color);
+            line-height: 1.47059;
+            letter-spacing: -0.022em;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-        }
-
-        .navbar {
-            background-color: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            box-shadow: 0 1px 0 rgba(0,0,0,0.05);
-            padding: 1rem 0;
-        }
-
-        .navbar-brand {
-            font-weight: 600;
-            letter-spacing: -0.5px;
-            color: #1d1d1f;
-        }
-
-        .navbar-nav .nav-link {
-            color: #1d1d1f;
-            font-weight: 500;
-            padding: 0.5rem 1rem;
-            transition: all 0.2s ease;
-        }
-
-        .navbar-nav .nav-link:hover,
-        .navbar-nav .nav-link.active {
-            color: #0066cc;
-        }
-
-        .btn-outline-dark {
-            border-radius: 20px;
-            padding: 0.4rem 1.2rem;
-            font-weight: 500;
-            transition: all 0.2s ease;
-            border-color: #1d1d1f;
-            color: #1d1d1f;
-        }
-
-        .btn-outline-dark:hover {
-            background-color: #1d1d1f;
-            color: white;
-            transform: scale(1.03);
-        }
-
-        .card {
-            border: none;
-            border-radius: 16px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-            overflow: hidden;
-            margin-bottom: 1.5rem;
-        }
-
-        .card-header {
-            background-color: #f5f5f7;
-            border-bottom: none;
-            padding: 1.5rem;
-            font-weight: 600;
-        }
-
-        .card-body {
-            padding: 2rem;
-        }
-
-        .section-heading {
-            font-weight: 600;
-            color: #1d1d1f;
-            margin-bottom: 0;
-            font-size: 28px;
-            letter-spacing: -0.5px;
-        }
-
-        .section-subheading {
-            color: #86868b;
-            font-size: 16px;
-            margin-bottom: 2rem;
-        }
-
-        .alert {
-            border-radius: 10px;
-            padding: 1rem;
-            margin-bottom: 1.5rem;
-            font-size: 14px;
-            border: none;
-        }
-
-        .alert-success {
-            background-color: #e8f5e9;
-            color: #2e7d32;
-        }
-
-        .alert-danger {
-            background-color: #ffebee;
-            color: #c62828;
-        }
-
-        .review-card {
-            transition: all 0.2s ease;
-        }
-
-        .review-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-        }
-
-        .review-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 1rem;
-            padding-bottom: 0.75rem;
-            border-bottom: 1px solid #f0f0f0;
-        }
-
-        .review-avatar {
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            background-color: #f0f0f0;
-            display: flex;
             align-items: center;
             justify-content: center;
-            margin-right: 1rem;
-            font-weight: 600;
-            color: #0066cc;
         }
-
-        .review-user-info {
-            flex: 1;
+        
+        .error-container {
+            text-align: center;
+            padding: 3rem;
+            max-width: 700px;
+            background-color: var(--card-background);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-md);
         }
-
-        .review-user-name {
-            font-weight: 600;
-            color: #1d1d1f;
-            margin: 0;
-        }
-
-        .review-date {
-            font-size: 12px;
-            color: #86868b;
-        }
-
-        .review-stars {
-            color: #ffc107;
-            font-size: 1.25rem;
-            margin-bottom: 0.75rem;
-        }
-
-        .review-content {
+        
+        .error-icon {
+            font-size: 5rem;
             margin-bottom: 1.5rem;
+            color: #ff9500;
         }
-
-        .review-status {
-            display: inline-block;
-            padding: 0.35rem 0.75rem;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 500;
+        
+        .error-code {
+            font-size: 2rem;
+            font-weight: 600;
             margin-bottom: 1rem;
         }
-
-        .status-pending {
-            background-color: #fff3e0;
-            color: #e65100;
-        }
-
-        .status-approved {
-            background-color: #e8f5e9;
-            color: #2e7d32;
-        }
-
-        .btn-approve {
-            background-color: #34c759;
-            color: white;
-            border: none;
-            border-radius: 20px;
-            padding: 0.5rem 1rem;
-            font-size: 14px;
-            font-weight: 500;
-            transition: all 0.2s ease;
-        }
-
-        .btn-approve:hover {
-            background-color: #30d158;
-            transform: scale(1.03);
-        }
-
-        .btn-unapprove {
-            background-color: #ff9500;
-            color: white;
-            border: none;
-            border-radius: 20px;
-            padding: 0.5rem 1rem;
-            font-size: 14px;
-            font-weight: 500;
-            transition: all 0.2s ease;
-        }
-
-        .btn-unapprove:hover {
-            background-color: #ff9f0a;
-            transform: scale(1.03);
-        }
-
-        .btn-delete {
-            background-color: #ff3b30;
-            color: white;
-            border: none;
-            border-radius: 20px;
-            padding: 0.5rem 1rem;
-            font-size: 14px;
-            font-weight: 500;
-            transition: all 0.2s ease;
-        }
-
-        .btn-delete:hover {
-            background-color: #ff453a;
-            transform: scale(1.03);
-        }
-
-        .nav-tabs {
-            border-bottom: 1px solid #d2d2d7;
+        
+        .error-message {
+            font-size: 1.5rem;
             margin-bottom: 2rem;
+            color: var(--text-color);
         }
-
-        .nav-tabs .nav-item .nav-link {
-            color: #86868b;
+        
+        .error-details {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            color: var(--text-secondary);
+        }
+        
+        .btn-primary {
+            background-color: var(--apple-blue);
+            border: none;
+            border-radius: 20px;
+            padding: 0.7rem 1.5rem;
             font-weight: 500;
-            border: none;
-            padding: 0.75rem 1.5rem;
-            position: relative;
+            transition: var(--transition);
+            box-shadow: 0 4px 16px rgba(0, 102, 204, 0.3);
         }
-
-        .nav-tabs .nav-item .nav-link.active {
-            color: #0066cc;
-            background: none;
-            border: none;
-        }
-
-        .nav-tabs .nav-item .nav-link.active::after {
-            content: '';
-            position: absolute;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            height: 2px;
-            background-color: #0066cc;
+        
+        .btn-primary:hover {
+            transform: scale(1.03);
+            box-shadow: 0 6px 20px rgba(0, 102, 204, 0.4);
+            background-color: var(--apple-blue-hover);
         }
     </style>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light mb-4">
-    <div class="container">
-        <a class="navbar-brand" href="#">MATHRA BEAUTY SALON</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav me-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="/staff/dashboard"><i class="fas fa-tachometer-alt me-1"></i>Dashboard</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/staff/bookings"><i class="fas fa-calendar-alt me-1"></i>Bookings</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/staff/customers"><i class="fas fa-users me-1"></i>Customers</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" href="/admin/reviews"><i class="fas fa-star me-1"></i>Reviews</a>
-                </li>
-            </ul>
-            <div class="d-flex align-items-center">
-                    <span class="navbar-text me-3">
-                        <i class="fas fa-user-circle me-1"></i>Welcome, <span sec:authentication="name">Admin</span>
-                    </span>
-                <form th:action="@{/logout}" method="post">
-                    <button type="submit" class="btn btn-outline-dark"><i class="fas fa-sign-out-alt me-1"></i>Logout</button>
-                </form>
-            </div>
+    <div class="error-container">
+        <div class="error-icon">
+            <i class="fas fa-map-signs"></i>
+        </div>
+        <h1 class="error-code">404</h1>
+        <h2 class="error-message">Page Not Found</h2>
+        <p class="error-details">The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.</p>
+        <div class="mt-4">
+            <a th:href="@{/}" class="btn btn-primary">
+                <i class="fas fa-home me-2"></i>Return to Home
+            </a>
         </div>
     </div>
-</nav>
-
-<div class="container">
-    <h2 class="section-heading">Manage Reviews</h2>
-    <p class="section-subheading">Approve, reject, or delete customer reviews</p>
-
-    <div th:if="${param.success}" class="alert alert-success">
-        <i class="fas fa-check-circle me-2"></i><span th:text="${param.success}">Operation completed successfully</span>
-    </div>
-
-    <div th:if="${param.error}" class="alert alert-danger">
-        <i class="fas fa-exclamation-circle me-2"></i><span th:text="${param.error}">An error occurred</span>
-    </div>
-
-    <ul class="nav nav-tabs" id="reviewsTab" role="tablist">
-        <li class="nav-item" role="presentation">
-            <button class="nav-link active" id="all-tab" data-bs-toggle="tab" data-bs-target="#allReviews" type="button" role="tab" aria-controls="allReviews" aria-selected="true">
-                All Reviews
-            </button>
-        </li>
-        <li class="nav-item" role="presentation">
-            <button class="nav-link" id="pending-tab" data-bs-toggle="tab" data-bs-target="#pendingReviews" type="button" role="tab" aria-controls="pendingReviews" aria-selected="false">
-                Pending Approval
-            </button>
-        </li>
-        <li class="nav-item" role="presentation">
-            <button class="nav-link" id="approved-tab" data-bs-toggle="tab" data-bs-target="#approvedReviews" type="button" role="tab" aria-controls="approvedReviews" aria-selected="false">
-                Approved
-            </button>
-        </li>
-    </ul>
-
-    <div class="tab-content" id="reviewsTabContent">
-        <div class="tab-pane fade show active" id="allReviews" role="tabpanel" aria-labelledby="all-tab">
-            <div th:if="${#lists.isEmpty(reviews)}" class="alert alert-info">
-                <i class="fas fa-info-circle me-2"></i>No reviews found
-            </div>
-
-            <div class="row" th:unless="${#lists.isEmpty(reviews)}">
-                <div class="col-md-6" th:each="review : ${reviews}">
-                    <div class="card review-card">
-                        <div class="card-body">
-                            <div class="review-header">
-                                <div class="review-avatar" th:if="${review.user != null}">
-                                    <span th:text="${review.user.fullName != null ? #strings.substring(review.user.fullName, 0, 1) : 'U'}">J</span>
-                                </div>
-                                <div class="review-user-info">
-                                    <h5 class="review-user-name" th:text="${review.user != null ? review.user.fullName : 'Unknown User'}">John Doe</h5>
-                                    <div class="review-date" th:text="${#temporals.format(review.createdAt, 'dd MMM yyyy, HH:mm')}">01 Jan 2023, 10:00</div>
-                                </div>
-                            </div>
-
-                            <div class="review-stars">
-                                    <span th:each="i : ${#numbers.sequence(1, 5)}">
-                                        <i th:class="${i <= (review.rating != null and review.rating <= 5 ? review.rating : 0)} ? 'fas fa-star' : 'far fa-star'"></i>
-                                    </span>
-                            </div>
-
-                            <div class="review-status" th:classappend="${review.approved ? 'status-approved' : 'status-pending'}">
-                                <i th:class="${review.approved ? 'fas fa-check-circle' : 'fas fa-clock'} + ' me-1'"></i>
-                                <span th:text="${review.approved ? 'Approved' : 'Pending Approval'}">Status</span>
-                            </div>
-
-                            <p class="review-content" th:text="${review.comment}">
-                                Sample review content. The customer expresses their opinion about the salon services.
-                            </p>
-
-                            <div class="d-flex">
-                                <form th:if="${!review.approved}" th:action="@{/admin/review/{id}/approve(id=${review.id})}" method="post" class="me-2">
-                                    <input type="hidden" name="approved" value="true">
-                                    <button type="submit" class="btn btn-approve">
-                                        <i class="fas fa-check-circle me-1"></i>Approve
-                                    </button>
-                                </form>
-
-                                <form th:if="${review.approved}" th:action="@{/admin/review/{id}/approve(id=${review.id})}" method="post" class="me-2">
-                                    <input type="hidden" name="approved" value="false">
-                                    <button type="submit" class="btn btn-unapprove">
-                                        <i class="fas fa-times-circle me-1"></i>Unapprove
-                                    </button>
-                                </form>
-
-                                <form th:action="@{/admin/review/{id}/delete(id=${review.id})}" method="post">
-                                    <button type="submit" class="btn btn-delete" onclick="return confirm('Are you sure you want to delete this review?')">
-                                        <i class="fas fa-trash-alt me-1"></i>Delete
-                                    </button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="tab-pane fade" id="pendingReviews" role="tabpanel" aria-labelledby="pending-tab">
-            <div th:if="${#lists.isEmpty(reviews.?[!approved])}" class="alert alert-info">
-                <i class="fas fa-info-circle me-2"></i>No pending reviews found
-            </div>
-
-            <div class="row" th:unless="${#lists.isEmpty(reviews.?[!approved])}">
-                <div class="col-md-6" th:each="review : ${reviews.?[!approved]}">
-                    <div class="card review-card">
-                        <div class="card-body">
-                            <div class="review-header">
-                                <div class="review-avatar" th:if="${review.user != null}">
-                                    <span th:text="${review.user.fullName != null ? #strings.substring(review.user.fullName, 0, 1) : 'U'}">J</span>
-                                </div>
-                                <div class="review-user-info">
-                                    <h5 class="review-user-name" th:text="${review.user != null ? review.user.fullName : 'Unknown User'}">John Doe</h5>
-                                    <div class="review-date" th:text="${#temporals.format(review.createdAt, 'dd MMM yyyy, HH:mm')}">01 Jan 2023, 10:00</div>
-                                </div>
-                            </div>
-
-                            <div class="review-stars">
-                                    <span th:each="i : ${#numbers.sequence(1, 5)}">
-                                        <i th:class="${i <= (review.rating != null and review.rating <= 5 ? review.rating : 0)} ? 'fas fa-star' : 'far fa-star'"></i>
-                                    </span>
-                            </div>
-
-                            <div class="review-status status-pending">
-                                <i class="fas fa-clock me-1"></i>
-                                <span>Pending Approval</span>
-                            </div>
-
-                            <p class="review-content" th:text="${review.comment}">
-                                Sample pending review content.
-                            </p>
-
-                            <div class="d-flex">
-                                <form th:action="@{/admin/review/{id}/approve(id=${review.id})}" method="post" class="me-2">
-                                    <input type="hidden" name="approved" value="true">
-                                    <button type="submit" class="btn btn-approve">
-                                        <i class="fas fa-check-circle me-1"></i>Approve
-                                    </button>
-                                </form>
-
-                                <form th:action="@{/admin/review/{id}/delete(id=${review.id})}" method="post">
-                                    <button type="submit" class="btn btn-delete" onclick="return confirm('Are you sure you want to delete this review?')">
-                                        <i class="fas fa-trash-alt me-1"></i>Delete
-                                    </button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="tab-pane fade" id="approvedReviews" role="tabpanel" aria-labelledby="approved-tab">
-            <div th:if="${#lists.isEmpty(reviews.?[approved])}" class="alert alert-info">
-                <i class="fas fa-info-circle me-2"></i>No approved reviews found
-            </div>
-
-            <div class="row" th:unless="${#lists.isEmpty(reviews.?[approved])}">
-                <div class="col-md-6" th:each="review : ${reviews.?[approved]}">
-                    <div class="card review-card">
-                        <div class="card-body">
-                            <div class="review-header">
-                                <div class="review-avatar" th:if="${review.user != null}">
-                                    <span th:text="${review.user.fullName != null ? #strings.substring(review.user.fullName, 0, 1) : 'U'}">J</span>
-                                </div>
-                                <div class="review-user-info">
-                                    <h5 class="review-user-name" th:text="${review.user != null ? review.user.fullName : 'Unknown User'}">John Doe</h5>
-                                    <div class="review-date" th:text="${#temporals.format(review.createdAt, 'dd MMM yyyy, HH:mm')}">01 Jan 2023, 10:00</div>
-                                </div>
-                            </div>
-
-                            <div class="review-stars">
-                                    <span th:each="i : ${#numbers.sequence(1, 5)}">
-                                        <i th:class="${i <= (review.rating != null and review.rating <= 5 ? review.rating : 0)} ? 'fas fa-star' : 'far fa-star'"></i>
-                                    </span>
-                            </div>
-
-                            <div class="review-status status-approved">
-                                <i class="fas fa-check-circle me-1"></i>
-                                <span>Approved</span>
-                            </div>
-
-                            <p class="review-content" th:text="${review.comment}">
-                                Sample approved review content.
-                            </p>
-
-                            <div class="d-flex">
-                                <form th:action="@{/admin/review/{id}/approve(id=${review.id})}" method="post" class="me-2">
-                                    <input type="hidden" name="approved" value="false">
-                                    <button type="submit" class="btn btn-unapprove">
-                                        <i class="fas fa-times-circle me-1"></i>Unapprove
-                                    </button>
-                                </form>
-
-                                <form th:action="@{/admin/review/{id}/delete(id=${review.id})}" method="post">
-                                    <button type="submit" class="btn btn-delete" onclick="return confirm('Are you sure you want to delete this review?')">
-                                        <i class="fas fa-trash-alt me-1"></i>Delete
-                                    </button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-</html>
+</html> 
