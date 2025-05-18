@@ -20,10 +20,10 @@ import java.util.Set;
  * - CUSTOMER: Salon clients who book appointments
  * 
  * Each user has basic profile information, authentication credentials, and role-specific data.
- * The class also maintains a bi-directional relationship with bookings.
+ * The class also maintains a bidirectional relationship with bookings.
  * 
- * @see com.mathra.salon.filemanager.FileStorable
- * @see com.mathra.salon.model.Booking
+ * @see com.Mathra.Salon.filemanager.FileStorable
+ * @see com.Mathra.Salon.model.Booking
  */
 @Entity
 @Table(name = "users")
@@ -365,15 +365,14 @@ public class User implements FileStorable, Serializable {
     /**
      * Creates a User object from its string representation from file storage.
      * This is part of the FileStorable interface implementation.
-     * 
+     * <p>
      * The string is expected to be in the format produced by toFileString():
      * id|username|password|fullName|email|phoneNumber|specialty|role|createdAt
-     * 
+     *
      * @param fileString The string representation from the file
-     * @return The User object, or null if parsing failed
      */
     @Override
-    public FileStorable fromFileString(String fileString) {
+    public void fromFileString(String fileString) {
         if (fileString == null || fileString.trim().isEmpty()) {
             return null;
         }

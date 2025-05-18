@@ -27,7 +27,7 @@ import java.util.List;
 public class BookingController {
 
     private static final Logger logger = LoggerFactory.getLogger(BookingController.class);
-    
+
     private final BookingFileService bookingFileService;
     private final UserFileService userFileService;
 
@@ -60,7 +60,7 @@ public class BookingController {
         try {
             // Get the current user
             User user = userFileService.findByUsername(authentication.getName());
-            
+
             // Create new booking
             Booking booking = new Booking();
             booking.setUser(user);
@@ -69,12 +69,12 @@ public class BookingController {
             booking.setBookingTime(bookingTime);
             booking.setSpecialRequests(specialRequests);
             booking.setStatus(Booking.Status.PENDING);
-            
+
             // Save the booking
             bookingFileService.createBooking(booking);
-            
+
             logger.info("Created booking: {}", booking);
-            
+
             redirectAttributes.addAttribute("success", true);
             return "redirect:/booking";
         } catch (Exception e) {
@@ -91,12 +91,12 @@ public class BookingController {
     public String showUserBookings(Authentication authentication, Model model) {
         User user = userFileService.findByUsername(authentication.getName());
         List<Booking> bookings = bookingFileService.findBookingsByUser(user);
-        
+
         model.addAttribute("bookings", bookings);
-        
+
         return "bookings";
     }
-    
+
     /**
      * Cancel a booking
      */
@@ -109,22 +109,22 @@ public class BookingController {
         try {
             User user = userFileService.findByUsername(authentication.getName());
             Booking booking = bookingFileService.findById(bookingId);
-            
+
             // Verify that the booking belongs to the current user
             if (!booking.getUser().getId().equals(user.getId())) {
                 throw new RuntimeException("You can only cancel your own bookings");
             }
-            
+
             // Verify that the booking can be cancelled
             if (booking.getStatus() != Booking.Status.PENDING && booking.getStatus() != Booking.Status.CONFIRMED) {
                 throw new RuntimeException("Only pending or confirmed bookings can be cancelled");
             }
-            
+
             // Update booking status
             bookingFileService.updateBookingStatus(bookingId, Booking.Status.CANCELLED);
-            
+
             logger.info("Cancelled booking: {}", bookingId);
-            
+
             redirectAttributes.addAttribute("cancelled", true);
             return "redirect:/bookings";
         } catch (Exception e) {
@@ -133,4 +133,4 @@ public class BookingController {
             return "redirect:/bookings";
         }
     }
-} 
+}

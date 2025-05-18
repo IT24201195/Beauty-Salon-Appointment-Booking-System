@@ -14,10 +14,10 @@ public interface FileStorable {
     
     /**
      * Populate the object from a file string
+     *
      * @param fileString String representation from the file
-     * @return The populated object or null if invalid
      */
-    FileStorable fromFileString(String fileString);
+    void fromFileString(String fileString);
     
     /**
      * Get the ID of the object

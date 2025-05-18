@@ -15,4 +15,4 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
     List<Booking> findByBookingDate(LocalDate date);
     List<Booking> findByStatus(Booking.Status status);
     List<Booking> findByUserAndStatus(User user, Booking.Status status);
-} 
+}

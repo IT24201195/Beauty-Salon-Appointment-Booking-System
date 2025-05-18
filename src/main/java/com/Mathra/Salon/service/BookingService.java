@@ -26,26 +26,26 @@ public class BookingService {
             logger.error("Cannot create booking: User is null");
             throw new IllegalArgumentException("User is required for booking");
         }
-        
+
         if (booking.getBookingDate() == null) {
             logger.error("Cannot create booking: Booking date is null");
             throw new IllegalArgumentException("Booking date is required");
         }
-        
+
         if (booking.getBookingTime() == null) {
             logger.error("Cannot create booking: Booking time is null");
             throw new IllegalArgumentException("Booking time is required");
         }
-        
+
         if (booking.getServiceType() == null) {
             logger.error("Cannot create booking: Service type is null");
             throw new IllegalArgumentException("Service type is required");
         }
-        
+
         logger.info("Creating new booking: Date={}, Time={}, Service={}, User={}",
                 booking.getBookingDate(), booking.getBookingTime(), booking.getServiceType(),
                 booking.getUser().getUsername());
-        
+
         try {
             Booking savedBooking = bookingRepository.save(booking);
             logger.info("Successfully created booking with ID: {}", savedBooking.getId());
@@ -113,4 +113,4 @@ public class BookingService {
         logger.info("Saving booking: ID={}", booking.getId());
         return bookingRepository.save(booking);
     }
-} 
+}

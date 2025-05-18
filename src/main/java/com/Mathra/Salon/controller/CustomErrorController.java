@@ -14,19 +14,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Controller
 public class CustomErrorController implements ErrorController {
-    
+
     private static final Logger logger = LoggerFactory.getLogger(CustomErrorController.class);
-    
+
     @RequestMapping("/error")
     public String handleError(HttpServletResponse response, Model model) {
         int statusCode = response.getStatus();
         HttpStatus status = HttpStatus.valueOf(statusCode);
-        
+
         logger.error("Error occurred with status code: {}", statusCode);
-        
+
         model.addAttribute("status", statusCode);
         model.addAttribute("error", status.getReasonPhrase());
-        
+
         switch (statusCode) {
             case 404:
                 model.addAttribute("message", "The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.");
@@ -41,7 +41,7 @@ public class CustomErrorController implements ErrorController {
                 model.addAttribute("message", "An unexpected error occurred. Please try again later.");
                 break;
         }
-        
+
         return "error";
     }
-} 
+}
