@@ -11,9 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-/**
- * Controller for handling user reviews
- */
+
 @Controller
 public class ReviewController {
 
@@ -26,9 +24,7 @@ public class ReviewController {
         this.userFileService = userFileService;
     }
 
-    /**
-     * Show the reviews page
-     */
+
     @GetMapping("/reviews")
     public String showReviews(Model model) {
         try {
@@ -41,9 +37,7 @@ public class ReviewController {
         }
     }
 
-    /**
-     * Show review form
-     */
+  
     @GetMapping("/review/new")
     public String showReviewForm(Model model, Authentication authentication) {
         if (authentication == null) {
@@ -51,7 +45,7 @@ public class ReviewController {
         }
 
         try {
-            User user = userFileService.findUserByUsername(authentication.getName()); // Fixed typo
+            User user = userFileService.findUserByUsername(authentication.getName()); 
             if (user == null) {
                 return "redirect:/login";
             }
@@ -65,9 +59,7 @@ public class ReviewController {
         }
     }
 
-    /**
-     * Process review form
-     */
+  
     @PostMapping("/review/submit")
     public String submitReview(@ModelAttribute Review review, Authentication authentication, RedirectAttributes redirectAttributes) {
         if (authentication == null) {
@@ -93,9 +85,7 @@ public class ReviewController {
         }
     }
 
-    /**
-     * Show update review form
-     */
+  
     @GetMapping("/review/edit/{id}")
     public String showUpdateReviewForm(@PathVariable("id") Long id, Model model, Authentication authentication, RedirectAttributes redirectAttributes) {
         if (authentication == null) {
@@ -128,9 +118,7 @@ public class ReviewController {
         }
     }
 
-    /**
-     * Process update review form
-     */
+  
     @PostMapping("/review/update/{id}")
     public String updateReview(@PathVariable("id") Long id, @ModelAttribute Review updatedReview, Authentication authentication, RedirectAttributes redirectAttributes) {
         if (authentication == null) {
@@ -161,9 +149,7 @@ public class ReviewController {
         }
     }
 
-    /**
-     * Delete a review
-     */
+   
     @PostMapping("/review/delete/{id}")
     public String deleteUserReview(@PathVariable("id") Long id, Authentication authentication, RedirectAttributes redirectAttributes) {
         if (authentication == null) {
@@ -191,18 +177,14 @@ public class ReviewController {
         }
     }
 
-    /**
-     * Admin: manage reviews
-     */
+   
     @GetMapping("/admin/reviews")
     public String manageReviews(Model model) {
         model.addAttribute("reviews", reviewFileService.findAllReviews());
         return "admin/reviews";
     }
 
-    /**
-     * Admin: approve review
-     */
+   
     @PostMapping("/admin/review/{id}/approve")
     public String approveReview(@PathVariable("id") Long id, @RequestParam("approved") boolean approved, RedirectAttributes redirectAttributes) {
         try {
@@ -214,9 +196,7 @@ public class ReviewController {
         return "redirect:/admin/reviews";
     }
 
-    /**
-     * Admin: delete review
-     */
+   
     @PostMapping("/admin/review/{id}/delete")
     public String deleteReview(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
         try {
