@@ -9,9 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-/**
- * Custom error controller to handle various HTTP errors
- */
+
 @Controller
 public class CustomErrorController implements ErrorController {
 
