@@ -1,35 +1,3 @@
-/**
- * Mathra Beauty Salon - Main Stylesheet
- * 
- * This stylesheet contains all the styling for the salon website.
- * The CSS is organized into logical sections:
- * 
- * 1. RESET & VARIABLES (lines 1-27): Basic reset and color variables
- * 2. TYPOGRAPHY (lines 28-63): Text styling, headings
- * 3. HEADER & NAVIGATION (lines 64-106): Logo and menu styling
- * 4. MAIN CONTENT (lines 107-115): Main container styles
- * 5. HERO SECTION (lines 116-158): Banner with CTA button
- * 6. ABOUT SECTION (lines 159-198): About Us content
- * 7. SERVICES SECTION (lines 199-266): Service cards
- * 8. GALLERY SECTION (lines 267-296): Image gallery
- * 9. BOOKING SECTION (lines 297-380): Booking form
- * 10. CONTACT SECTION (lines 381-451): Contact info and map
- * 11. CONFIRMATION PAGE (lines 452-579): Booking confirmation styles
- * 12. FOOTER (lines 580-618): Footer content
- * 13. RESPONSIVE DESIGN (lines 619-end): Mobile adjustments
- * 
- * NOTES FOR WINDOWS USERS:
- * - This CSS works in all modern browsers (Chrome, Edge, Firefox)
- * - If images don't display, check that file paths use forward slashes (/)
- * - For local development, use a web server like Live Server in VS Code
- * 
- * TROUBLESHOOTING:
- * - If styles don't appear: Check browser developer tools for CSS errors
- * - Layout issues on mobile: Ensure the viewport meta tag is in HTML
- * - Custom fonts not loading: Make sure web fonts are properly linked
- */
-
-/* Basic Reset */
 * {
     margin: 0;
     padding: 0;
@@ -148,7 +116,7 @@ nav ul li a:hover {
     color: var(--light-color);
 }
 
-/* Main Content */
+
 main {
     max-width: 1200px;
     margin: 0 auto;
@@ -203,7 +171,6 @@ main {
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
 
-/* About Section */
 .about-section {
     padding: 4rem 2rem;
     background-color: var(--white);
@@ -252,7 +219,7 @@ main {
     margin-bottom: 1rem;
 }
 
-/* Services Section */
+
 .services-section {
     background-color: var(--light-gray);
     text-align: center;
@@ -294,7 +261,6 @@ main {
     margin-top: 1rem;
 }
 
-/* Gallery Section */
 .gallery-section {
     text-align: center;
     background-color: var(--white);
@@ -324,7 +290,7 @@ main {
     box-shadow: var(--box-shadow);
 }
 
-/* Booking Section */
+
 .booking-section {
     background-color: var(--light-gray);
     text-align: center;
@@ -612,37 +578,37 @@ footer {
     h1 {
         font-size: 2rem;
     }
-
+    
     h2 {
         font-size: 1.8rem;
     }
-
+    
     .hero-content h2 {
         font-size: 2.2rem;
     }
-
+    
     .hero-section {
         padding: 5rem 1rem;
     }
-
+    
     nav ul {
         flex-direction: column;
         text-align: center;
     }
-
+    
     nav ul li {
         margin: 0.5rem 0;
     }
-
+    
     .form-row {
         flex-direction: column;
     }
-
+    
     .footer-content {
         flex-direction: column;
         text-align: center;
     }
-
+    
     .footer-logo, .footer-links, .footer-newsletter {
         width: 100%;
     }
