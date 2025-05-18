@@ -8,104 +8,104 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <header>
-        <div class="logo">
-            <h1>Mathra</h1>
-            <p class="tagline">Beauty & Elegance</p>
-        </div>
-        <nav>
-            <ul>
-                <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
-                <li><a href="index.html#about"><i class="fas fa-info-circle"></i> About</a></li>
-                <li><a href="index.html#services"><i class="fas fa-spa"></i> Services</a></li>
-                <li><a href="index.html#gallery"><i class="fas fa-images"></i> Gallery</a></li>
-                <li><a href="index.html#booking"><i class="fas fa-calendar-alt"></i> Booking</a></li>
-                <li><a href="index.html#contact"><i class="fas fa-envelope"></i> Contact</a></li>
-            </ul>
-        </nav>
-    </header>
+<header>
+    <div class="logo">
+        <h1>Mathra</h1>
+        <p class="tagline">Beauty & Elegance</p>
+    </div>
+    <nav>
+        <ul>
+            <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="index.html#about"><i class="fas fa-info-circle"></i> About</a></li>
+            <li><a href="index.html#services"><i class="fas fa-spa"></i> Services</a></li>
+            <li><a href="index.html#gallery"><i class="fas fa-images"></i> Gallery</a></li>
+            <li><a href="index.html#booking"><i class="fas fa-calendar-alt"></i> Booking</a></li>
+            <li><a href="index.html#contact"><i class="fas fa-envelope"></i> Contact</a></li>
+        </ul>
+    </nav>
+</header>
 
-    <main>
-        <section class="confirmation-section">
-            <div class="confirmation-content">
-                <i class="fas fa-check-circle confirmation-icon"></i>
-                <h2>Booking Confirmed!</h2>
-                <p>Thank you for choosing Mathra Beauty Salon. Your appointment has been scheduled.</p>
-                
-                <div class="booking-details">
-                    <h3>Your Appointment Details</h3>
-                </div>
-                
-                <div class="confirmation-actions">
-                    <a href="index.html" class="btn-secondary"><i class="fas fa-arrow-left"></i> Back to Home</a>
-                </div>
-            </div>
-        </section>
-    </main>
+<main>
+    <section class="confirmation-section">
+        <div class="confirmation-content">
+            <i class="fas fa-check-circle confirmation-icon"></i>
+            <h2>Booking Confirmed!</h2>
+            <p>Thank you for choosing Mathra Beauty Salon. Your appointment has been scheduled.</p>
 
-    <footer>
-        <div class="footer-content">
-            <div class="footer-logo">
-                <h3>Mathra</h3>
-                <p>Beauty & Elegance</p>
+            <div class="booking-details">
+                <h3>Your Appointment Details</h3>
             </div>
-            <div class="footer-contact">
-                <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
-                <p><i class="fas fa-envelope"></i> info@mathrasalon.com</p>
+
+            <div class="confirmation-actions">
+                <a href="index.html" class="btn-secondary"><i class="fas fa-arrow-left"></i> Back to Home</a>
             </div>
         </div>
-        <div class="footer-bottom">
-            <p>&copy; 2024 Mathra Beauty Salon. All Rights Reserved.</p>
-        </div>
-    </footer>
+    </section>
+</main>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const params = new URLSearchParams(window.location.search);
-            const bookingDetails = document.querySelector('.booking-details');
-            
-            if (!bookingDetails) return;
-            
-            const serviceNames = {
-                'hair_cut': 'Haircut',
-                'coloring': 'Hair Coloring',
-                'facial': 'Facial Treatment',
-                'manicure': 'Manicure',
-                'pedicure': 'Pedicure',
-                'makeup': 'Makeup',
-                'massage': 'Massage'
-            };
-            
-            const name = params.get('customer_name') || 'Not provided';
-            const email = params.get('customer_email') || 'Not provided';
-            const phone = params.get('customer_phone') || 'Not provided';
-            const date = params.get('booking_date') || 'Not provided';
-            const time = params.get('booking_time') || 'Not provided';
-            const serviceType = params.get('service_type') || 'Not provided';
-            const notes = params.get('customer_notes') || 'None';
-            
-            let formattedDate = date;
-            if (date && date !== 'Not provided') {
-                const dateObj = new Date(date);
-                const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-                formattedDate = dateObj.toLocaleDateString('en-US', options);
-            }
-            
-            let formattedTime = time;
-            if (time && time !== 'Not provided') {
-                const timeParts = time.split(':');
-                const hours = parseInt(timeParts[0]);
-                const minutes = timeParts[1];
-                const ampm = hours >= 12 ? 'PM' : 'AM';
-                const hours12 = hours % 12 || 12;
-                formattedTime = `${hours12}:${minutes} ${ampm}`;
-            }
-            
-            const serviceName = serviceNames[serviceType] || serviceType;
-            
-            const confirmationId = 'MTH' + Math.floor(100000 + Math.random() * 900000);
-            
-            const detailsHTML = `
+<footer>
+    <div class="footer-content">
+        <div class="footer-logo">
+            <h3>Mathra</h3>
+            <p>Beauty & Elegance</p>
+        </div>
+        <div class="footer-contact">
+            <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
+            <p><i class="fas fa-envelope"></i> info@mathrasalon.com</p>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>&copy; 2024 Mathra Beauty Salon. All Rights Reserved.</p>
+    </div>
+</footer>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const params = new URLSearchParams(window.location.search);
+        const bookingDetails = document.querySelector('.booking-details');
+
+        if (!bookingDetails) return;
+
+        const serviceNames = {
+            'hair_cut': 'Haircut',
+            'coloring': 'Hair Coloring',
+            'facial': 'Facial Treatment',
+            'manicure': 'Manicure',
+            'pedicure': 'Pedicure',
+            'makeup': 'Makeup',
+            'massage': 'Massage'
+        };
+
+        const name = params.get('customer_name') || 'Not provided';
+        const email = params.get('customer_email') || 'Not provided';
+        const phone = params.get('customer_phone') || 'Not provided';
+        const date = params.get('booking_date') || 'Not provided';
+        const time = params.get('booking_time') || 'Not provided';
+        const serviceType = params.get('service_type') || 'Not provided';
+        const notes = params.get('customer_notes') || 'None';
+
+        let formattedDate = date;
+        if (date && date !== 'Not provided') {
+            const dateObj = new Date(date);
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            formattedDate = dateObj.toLocaleDateString('en-US', options);
+        }
+
+        let formattedTime = time;
+        if (time && time !== 'Not provided') {
+            const timeParts = time.split(':');
+            const hours = parseInt(timeParts[0]);
+            const minutes = timeParts[1];
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            const hours12 = hours % 12 || 12;
+            formattedTime = `${hours12}:${minutes} ${ampm}`;
+        }
+
+        const serviceName = serviceNames[serviceType] || serviceType;
+
+        const confirmationId = 'MTH' + Math.floor(100000 + Math.random() * 900000);
+
+        const detailsHTML = `
                 <div class="detail-item">
                     <span class="detail-label">Confirmation ID:</span>
                     <span class="detail-value">${confirmationId}</span>
@@ -143,9 +143,9 @@
                     <p><i class="fas fa-phone"></i> If you need to reschedule, please call us at +1 (555) 123-4567.</p>
                 </div>
             `;
-            
-            bookingDetails.insertAdjacentHTML('beforeend', detailsHTML);
-        });
-    </script>
+
+        bookingDetails.insertAdjacentHTML('beforeend', detailsHTML);
+    });
+</script>
 </body>
 </html> 

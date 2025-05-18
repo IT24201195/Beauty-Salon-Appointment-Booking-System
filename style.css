@@ -612,37 +612,37 @@ footer {
     h1 {
         font-size: 2rem;
     }
-    
+
     h2 {
         font-size: 1.8rem;
     }
-    
+
     .hero-content h2 {
         font-size: 2.2rem;
     }
-    
+
     .hero-section {
         padding: 5rem 1rem;
     }
-    
+
     nav ul {
         flex-direction: column;
         text-align: center;
     }
-    
+
     nav ul li {
         margin: 0.5rem 0;
     }
-    
+
     .form-row {
         flex-direction: column;
     }
-    
+
     .footer-content {
         flex-direction: column;
         text-align: center;
     }
-    
+
     .footer-logo, .footer-links, .footer-newsletter {
         width: 100%;
     }
