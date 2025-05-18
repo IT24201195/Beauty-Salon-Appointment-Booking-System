@@ -9,21 +9,21 @@ import java.util.Set;
 
 /**
  * User model class representing users in the system.
- * 
+ *
  * This class serves as the core user entity in the Mathra Beauty Salon application.
  * It implements the FileStorable interface to enable persistence in the file-based storage system,
  * as well as Serializable to support object serialization when needed.
- * 
+ *
  * The User model supports three different roles:
  * - ADMIN: System administrators with full access
  * - STAFF: Salon employees who manage bookings and services
  * - CUSTOMER: Salon clients who book appointments
- * 
+ *
  * Each user has basic profile information, authentication credentials, and role-specific data.
- * The class also maintains a bidirectional relationship with bookings.
- * 
- * @see com.Mathra.Salon.filemanager.FileStorable
- * @see com.Mathra.Salon.model.Booking
+ * The class also maintains a bi-directional relationship with bookings.
+ *
+ * @see FileStorable
+ * @see Booking
  */
 @Entity
 @Table(name = "users")
@@ -77,7 +77,7 @@ public class User implements FileStorable, Serializable {
      * Optional field primarily used for staff and customers.
      */
     private String phoneNumber;
-    
+
     /**
      * Staff specialty/expertise.
      * Only applicable for users with STAFF role.
@@ -119,7 +119,7 @@ public class User implements FileStorable, Serializable {
     /**
      * Full constructor with all fields.
      * Used when creating a user with complete information.
-     * 
+     *
      * @param id The user ID
      * @param username The unique username
      * @param password The hashed password
@@ -130,7 +130,7 @@ public class User implements FileStorable, Serializable {
      * @param role The user's role
      * @param bookings The user's bookings
      */
-    public User(Long id, String username, String password, String fullName, String email, 
+    public User(Long id, String username, String password, String fullName, String email,
                 String phoneNumber, String specialty, Role role, Set<Booking> bookings) {
         this.id = id;
         this.username = username;
@@ -146,7 +146,7 @@ public class User implements FileStorable, Serializable {
     // Getters and Setters
     /**
      * Gets the user's ID.
-     * 
+     *
      * @return The user ID
      */
     public Long getId() {
@@ -156,7 +156,7 @@ public class User implements FileStorable, Serializable {
     /**
      * Sets the user's ID.
      * Generally only used by the persistence system.
-     * 
+     *
      * @param id The user ID to set
      */
     public void setId(Long id) {
@@ -165,7 +165,7 @@ public class User implements FileStorable, Serializable {
 
     /**
      * Gets the username.
-     * 
+     *
      * @return The username
      */
     public String getUsername() {
@@ -174,7 +174,7 @@ public class User implements FileStorable, Serializable {
 
     /**
      * Sets the username.
-     * 
+     *
      * @param username The username to set
      */
     public void setUsername(String username) {
@@ -183,7 +183,7 @@ public class User implements FileStorable, Serializable {
 
     /**
      * Gets the hashed password.
-     * 
+     *
      * @return The hashed password
      */
     public String getPassword() {
@@ -193,7 +193,7 @@ public class User implements FileStorable, Serializable {
     /**
      * Sets the password.
      * Note: This should be the hashed version of the password, not plaintext.
-     * 
+     *
      * @param password The hashed password to set
      */
     public void setPassword(String password) {
@@ -202,7 +202,7 @@ public class User implements FileStorable, Serializable {
 
     /**
      * Gets the user's full name.
-     * 
+     *
      * @return The full name
      */
     public String getFullName() {
@@ -211,7 +211,7 @@ public class User implements FileStorable, Serializable {
 
     /**
      * Sets the user's full name.
-     * 
+     *
      * @param fullName The full name to set
      */
     public void setFullName(String fullName) {
@@ -220,7 +220,7 @@ public class User implements FileStorable, Serializable {
 
     /**
      * Gets the user's email.
-     * 
+     *
      * @return The email address
      */
     public String getEmail() {
@@ -229,7 +229,7 @@ public class User implements FileStorable, Serializable {
 
     /**
      * Sets the user's email.
-     * 
+     *
      * @param email The email to set
      */
     public void setEmail(String email) {
@@ -238,7 +238,7 @@ public class User implements FileStorable, Serializable {
 
     /**
      * Gets the user's phone number.
-     * 
+     *
      * @return The phone number
      */
     public String getPhoneNumber() {
@@ -247,7 +247,7 @@ public class User implements FileStorable, Serializable {
 
     /**
      * Sets the user's phone number.
-     * 
+     *
      * @param phoneNumber The phone number to set
      */
     public void setPhoneNumber(String phoneNumber) {
@@ -256,7 +256,7 @@ public class User implements FileStorable, Serializable {
 
     /**
      * Gets the staff specialty.
-     * 
+     *
      * @return The specialty
      */
     public String getSpecialty() {
@@ -265,7 +265,7 @@ public class User implements FileStorable, Serializable {
 
     /**
      * Sets the staff specialty.
-     * 
+     *
      * @param specialty The specialty to set
      */
     public void setSpecialty(String specialty) {
@@ -274,7 +274,7 @@ public class User implements FileStorable, Serializable {
 
     /**
      * Gets the user's role.
-     * 
+     *
      * @return The role
      */
     public Role getRole() {
@@ -283,7 +283,7 @@ public class User implements FileStorable, Serializable {
 
     /**
      * Sets the user's role.
-     * 
+     *
      * @param role The role to set
      */
     public void setRole(Role role) {
@@ -292,7 +292,7 @@ public class User implements FileStorable, Serializable {
 
     /**
      * Gets the account creation timestamp.
-     * 
+     *
      * @return The creation timestamp
      */
     public java.time.LocalDateTime getCreatedAt() {
@@ -301,7 +301,7 @@ public class User implements FileStorable, Serializable {
 
     /**
      * Sets the account creation timestamp.
-     * 
+     *
      * @param createdAt The timestamp to set
      */
     public void setCreatedAt(java.time.LocalDateTime createdAt) {
@@ -310,7 +310,7 @@ public class User implements FileStorable, Serializable {
 
     /**
      * Gets the user's bookings.
-     * 
+     *
      * @return The set of bookings
      */
     public Set<Booking> getBookings() {
@@ -319,7 +319,7 @@ public class User implements FileStorable, Serializable {
 
     /**
      * Sets the user's bookings.
-     * 
+     *
      * @param bookings The bookings to set
      */
     public void setBookings(Set<Booking> bookings) {
@@ -332,19 +332,19 @@ public class User implements FileStorable, Serializable {
      */
     public enum Role {
         /** Administrator role with full system access */
-        ADMIN, 
+        ADMIN,
         /** Staff role with booking management capabilities */
-        STAFF, 
+        STAFF,
         /** Customer role with appointment booking abilities */
         CUSTOMER
     }
-    
+
     /**
      * Converts the User object to a string representation for file storage.
      * This is part of the FileStorable interface implementation.
-     * 
+     *
      * Format: id|username|password|fullName|email|phoneNumber|specialty|role|createdAt
-     * 
+     *
      * @return The string representation of the user
      */
     @Override
@@ -361,43 +361,44 @@ public class User implements FileStorable, Serializable {
                 role.name(),
                 createdAt != null ? createdAt.toString() : "");
     }
-    
+
     /**
      * Creates a User object from its string representation from file storage.
      * This is part of the FileStorable interface implementation.
-     * <p>
+     *
      * The string is expected to be in the format produced by toFileString():
      * id|username|password|fullName|email|phoneNumber|specialty|role|createdAt
      *
      * @param fileString The string representation from the file
+     * @return The User object, or null if parsing failed
      */
     @Override
     public void fromFileString(String fileString) {
         if (fileString == null || fileString.trim().isEmpty()) {
-            return null;
+            return;
         }
-        
+
         String[] parts = fileString.split("\\|");
         if (parts.length < 5) {
             // Minimum required fields: id, username, password, fullName, email
-            return null;
+            return;
         }
-        
+
         try {
             this.id = Long.parseLong(parts[0]);
             this.username = parts[1];
             this.password = parts[2];
             this.fullName = parts[3];
             this.email = parts[4];
-            
+
             if (parts.length > 5) {
                 this.phoneNumber = parts[5].isEmpty() ? null : parts[5];
             }
-            
+
             if (parts.length > 6) {
                 this.specialty = parts[6].isEmpty() ? null : parts[6];
             }
-            
+
             if (parts.length > 7) {
                 try {
                     this.role = Role.valueOf(parts[7]);
@@ -407,7 +408,7 @@ public class User implements FileStorable, Serializable {
             } else {
                 this.role = Role.CUSTOMER; // Default
             }
-            
+
             if (parts.length > 8 && !parts[8].isEmpty()) {
                 try {
                     this.createdAt = java.time.LocalDateTime.parse(parts[8]);
@@ -417,10 +418,10 @@ public class User implements FileStorable, Serializable {
             } else {
                 this.createdAt = java.time.LocalDateTime.now();
             }
-            
-            return this;
+
+            // Successfully parsed
         } catch (NumberFormatException e) {
-            return null; // Invalid ID format
+            // Invalid ID format, do nothing
         }
     }
-} 
+}
