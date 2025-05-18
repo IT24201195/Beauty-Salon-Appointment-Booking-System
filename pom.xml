@@ -8,8 +8,8 @@
 		<version>3.2.4</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.mathra</groupId>
-	<artifactId>salon</artifactId>
+	<groupId>com.Mathra</groupId>
+	<artifactId>Salon</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Mathra Beauty Salon</name>
 	<description>Beauty Salon Appointment Booking System</description>
@@ -88,6 +88,7 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
+					<mainClass>com.Mathra.Salon.SalonApplication</mainClass>
 					<excludes>
 						<exclude>
 							<groupId>org.projectlombok</groupId>
