@@ -3,17 +3,14 @@ package com.Mathra.Salon.model;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-/**
- * Model for storing user reviews
- */
 public class Review implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     private Long id;
-    private Long userId; // Store user ID instead of User object
-    private transient User user; // Keep transient for runtime use
-    private int rating; // 1-5 stars
+    private Long userId; 
+    private transient User user; 
+    private int rating; 
     private String comment;
     private LocalDateTime createdAt;
     private boolean approved;
