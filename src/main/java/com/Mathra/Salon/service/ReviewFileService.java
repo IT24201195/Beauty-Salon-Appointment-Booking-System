@@ -15,9 +15,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**
- * Service for handling review operations
- */
+
 @Service
 public class ReviewFileService {
 
@@ -34,9 +32,7 @@ public class ReviewFileService {
         loadReviews();
     }
 
-    /**
-     * Create a new review
-     */
+   
     public Review createReview(Review review) {
         if (review.getUser() == null) {
             throw new IllegalArgumentException("User cannot be null");
@@ -48,7 +44,7 @@ public class ReviewFileService {
             throw new IllegalArgumentException("Comment cannot be empty");
         }
 
-        // Set ID and creation time
+     
         review.setId(nextId++);
         review.setCreatedAt(LocalDateTime.now());
         review.setApproved(false);
@@ -63,9 +59,7 @@ public class ReviewFileService {
         return review;
     }
 
-    /**
-     * Update an existing review
-     */
+    
     public void updateReview(Long id, Review updatedReview, User user) {
         Review existingReview = findReviewById(id);
         if (existingReview == null) {
@@ -84,11 +78,11 @@ public class ReviewFileService {
             throw new IllegalArgumentException("Comment cannot be empty");
         }
 
-        // Update fields
+       
         existingReview.setRating(updatedReview.getRating());
         existingReview.setComment(updatedReview.getComment());
-        existingReview.setCreatedAt(LocalDateTime.now()); // Update timestamp
-        existingReview.setApproved(false); // Reset approval status
+        existingReview.setCreatedAt(LocalDateTime.now()); 
+        existingReview.setApproved(false); 
 
         try {
             saveReviews();
@@ -97,16 +91,12 @@ public class ReviewFileService {
         }
     }
 
-    /**
-     * Find all reviews
-     */
+    
     public List<Review> findAllReviews() {
         return new ArrayList<>(reviews);
     }
 
-    /**
-     * Find approved reviews
-     */
+ 
     public List<Review> findApprovedReviews() {
         return reviews.stream()
                 .filter(Review::isApproved)
@@ -114,9 +104,7 @@ public class ReviewFileService {
                 .collect(Collectors.toList());
     }
 
-    /**
-     * Find reviews by user
-     */
+   
     public List<Review> findReviewsByUser(User user) {
         if (user == null) {
             return new ArrayList<>();
@@ -127,9 +115,7 @@ public class ReviewFileService {
                 .collect(Collectors.toList());
     }
 
-    /**
-     * Find reviews by ID
-     */
+   
     public Review findReviewById(Long id) {
         return reviews.stream()
                 .filter(review -> review.getId().equals(id))
@@ -137,9 +123,7 @@ public class ReviewFileService {
                 .orElse(null);
     }
 
-    /**
-     * Update review approval status
-     */
+   
     public void approveReview(Long id, boolean approved) {
         Review review = findReviewById(id);
         if (review != null) {
@@ -152,9 +136,7 @@ public class ReviewFileService {
         }
     }
 
-    /**
-     * Delete a review
-     */
+  
     public void deleteReview(Long id) {
         reviews.removeIf(review -> review.getId().equals(id));
         try {
@@ -164,9 +146,7 @@ public class ReviewFileService {
         }
     }
 
-    /**
-     * Calculate average rating
-     */
+   
     public double getAverageRating() {
         if (reviews.isEmpty() || findApprovedReviews().isEmpty()) {
             return 0.0;
@@ -178,9 +158,7 @@ public class ReviewFileService {
                 .orElse(0.0);
     }
 
-    /**
-     * Save reviews to file
-     */
+
     private void saveReviews() throws IOException {
         Path filePath = Paths.get(REVIEWS_FILE);
         Files.createDirectories(filePath.getParent());
@@ -191,9 +169,6 @@ public class ReviewFileService {
         }
     }
 
-    /**
-     * Load reviews from files
-     */
     @SuppressWarnings("unchecked")
     private void loadReviews() {
         Path filePath = Paths.get(REVIEWS_FILE);
@@ -211,20 +186,20 @@ public class ReviewFileService {
             reviews = (List<Review>) ois.readObject();
             nextId = (Long) ois.readObject();
 
-            // Reconnect users using userId
+          
             for (Review review : reviews) {
                 if (review.getUserId() != null) {
                     try {
                         User user = userFileService.findUserById(review.getUserId());
                         review.setUser(user);
                     } catch (Exception e) {
-                        // If user cannot be found, keep the userId but set user to null
+                      
                         review.setUser(null);
                     }
                 }
             }
         } catch (IOException | ClassNotFoundException e) {
-            // If there's an error reading the file, start with empty reviews
+       
             reviews = new ArrayList<>();
             System.err.println("Warning: Failed to load reviews, starting with empty list: " + e.getMessage());
         }
