@@ -7,24 +7,7 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * User model class representing users in the system.
- *
- * This class serves as the core user entity in the Mathra Beauty Salon application.
- * It implements the FileStorable interface to enable persistence in the file-based storage system,
- * as well as Serializable to support object serialization when needed.
- *
- * The User model supports three different roles:
- * - ADMIN: System administrators with full access
- * - STAFF: Salon employees who manage bookings and services
- * - CUSTOMER: Salon clients who book appointments
- *
- * Each user has basic profile information, authentication credentials, and role-specific data.
- * The class also maintains a bi-directional relationship with bookings.
- *
- * @see FileStorable
- * @see Booking
- */
+
 @Entity
 @Table(name = "users")
 public class User implements FileStorable, Serializable {
@@ -116,20 +99,7 @@ public class User implements FileStorable, Serializable {
         // Default constructor
     }
 
-    /**
-     * Full constructor with all fields.
-     * Used when creating a user with complete information.
-     *
-     * @param id The user ID
-     * @param username The unique username
-     * @param password The hashed password
-     * @param fullName The user's full name
-     * @param email The user's email address
-     * @param phoneNumber The user's phone number
-     * @param specialty The staff specialty (if applicable)
-     * @param role The user's role
-     * @param bookings The user's bookings
-     */
+  
     public User(Long id, String username, String password, String fullName, String email,
                 String phoneNumber, String specialty, Role role, Set<Booking> bookings) {
         this.id = id;
@@ -143,77 +113,41 @@ public class User implements FileStorable, Serializable {
         this.bookings = bookings;
     }
 
-    // Getters and Setters
-    /**
-     * Gets the user's ID.
-     *
-     * @return The user ID
-     */
+    
     public Long getId() {
         return id;
     }
 
-    /**
-     * Sets the user's ID.
-     * Generally only used by the persistence system.
-     *
-     * @param id The user ID to set
-     */
+   
     public void setId(Long id) {
         this.id = id;
     }
 
-    /**
-     * Gets the username.
-     *
-     * @return The username
-     */
+   
     public String getUsername() {
         return username;
     }
 
-    /**
-     * Sets the username.
-     *
-     * @param username The username to set
-     */
+   
     public void setUsername(String username) {
         this.username = username;
     }
 
-    /**
-     * Gets the hashed password.
-     *
-     * @return The hashed password
-     */
+
     public String getPassword() {
         return password;
     }
 
-    /**
-     * Sets the password.
-     * Note: This should be the hashed version of the password, not plaintext.
-     *
-     * @param password The hashed password to set
-     */
+    
     public void setPassword(String password) {
         this.password = password;
     }
 
-    /**
-     * Gets the user's full name.
-     *
-     * @return The full name
-     */
+    
     public String getFullName() {
         return fullName;
     }
 
-    /**
-     * Sets the user's full name.
-     *
-     * @param fullName The full name to set
-     */
     public void setFullName(String fullName) {
         this.fullName = fullName;
     }
@@ -339,14 +273,7 @@ public class User implements FileStorable, Serializable {
         CUSTOMER
     }
 
-    /**
-     * Converts the User object to a string representation for file storage.
-     * This is part of the FileStorable interface implementation.
-     *
-     * Format: id|username|password|fullName|email|phoneNumber|specialty|role|createdAt
-     *
-     * @return The string representation of the user
-     */
+    
     @Override
     public String toFileString() {
         // Format: id|username|password|fullName|email|phoneNumber|specialty|role|createdAt
@@ -362,16 +289,7 @@ public class User implements FileStorable, Serializable {
                 createdAt != null ? createdAt.toString() : "");
     }
 
-    /**
-     * Creates a User object from its string representation from file storage.
-     * This is part of the FileStorable interface implementation.
-     *
-     * The string is expected to be in the format produced by toFileString():
-     * id|username|password|fullName|email|phoneNumber|specialty|role|createdAt
-     *
-     * @param fileString The string representation from the file
-     * @return The User object, or null if parsing failed
-     */
+  
     @Override
     public void fromFileString(String fileString) {
         if (fileString == null || fileString.trim().isEmpty()) {
