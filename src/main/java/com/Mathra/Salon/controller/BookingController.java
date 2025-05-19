@@ -20,9 +20,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
-/**
- * Controller for handling bookings
- */
+
 @Controller
 public class BookingController {
 
@@ -37,17 +35,13 @@ public class BookingController {
         this.userFileService = userFileService;
     }
 
-    /**
-     * Show booking form
-     */
+
     @GetMapping("/booking")
     public String showBookingForm() {
         return "booking";
     }
 
-    /**
-     * Process booking form
-     */
+
     @PostMapping("/booking")
     public String createBooking(
             Authentication authentication,
