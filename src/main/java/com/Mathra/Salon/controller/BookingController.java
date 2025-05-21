@@ -52,10 +52,11 @@ public class BookingController {
             RedirectAttributes redirectAttributes
     ) {
         try {
-            // Get the current user
             User user = userFileService.findByUsername(authentication.getName());
+            if (user == null) {
+                throw new RuntimeException("User not found");
+            }
 
-            // Create new booking
             Booking booking = new Booking();
             booking.setUser(user);
             booking.setServiceType(serviceType);
@@ -64,11 +65,8 @@ public class BookingController {
             booking.setSpecialRequests(specialRequests);
             booking.setStatus(Booking.Status.PENDING);
 
-            // Save the booking
             bookingFileService.createBooking(booking);
-
             logger.info("Created booking: {}", booking);
-
             redirectAttributes.addAttribute("success", true);
             return "redirect:/booking";
         } catch (Exception e) {
@@ -83,12 +81,21 @@ public class BookingController {
      */
     @GetMapping("/bookings")
     public String showUserBookings(Authentication authentication, Model model) {
-        User user = userFileService.findByUsername(authentication.getName());
-        List<Booking> bookings = bookingFileService.findBookingsByUser(user);
+        try {
+            User user = userFileService.findByUsername(authentication.getName());
+            if (user == null) {
+                throw new RuntimeException("User not found");
+            }
 
-        model.addAttribute("bookings", bookings);
-
-        return "bookings";
+            // Only get bookings for the current user
+            List<Booking> userBookings = bookingFileService.findBookingsByUser(user);
+            model.addAttribute("bookings", userBookings);
+            return "bookings";
+        } catch (Exception e) {
+            logger.error("Error fetching user bookings: {}", e.getMessage());
+            model.addAttribute("error", "Failed to load bookings: " + e.getMessage());
+            return "bookings";
+        }
     }
 
     /**
@@ -102,29 +109,23 @@ public class BookingController {
     ) {
         try {
             User user = userFileService.findByUsername(authentication.getName());
-            Booking booking = bookingFileService.findById(bookingId);
+            if (user == null) {
+                throw new RuntimeException("User not found");
+            }
 
+            Booking booking = bookingFileService.findById(bookingId);
+            
             // Verify that the booking belongs to the current user
             if (!booking.getUser().getId().equals(user.getId())) {
                 throw new RuntimeException("You can only cancel your own bookings");
             }
 
-            // Verify that the booking can be cancelled
-            if (booking.getStatus() != Booking.Status.PENDING && booking.getStatus() != Booking.Status.CONFIRMED) {
-                throw new RuntimeException("Only pending or confirmed bookings can be cancelled");
-            }
-
-            // Update booking status
-            bookingFileService.updateBookingStatus(bookingId, Booking.Status.CANCELLED);
-
-            logger.info("Cancelled booking: {}", bookingId);
-
-            redirectAttributes.addAttribute("cancelled", true);
-            return "redirect:/bookings";
+            bookingFileService.cancelBooking(bookingId);
+            redirectAttributes.addFlashAttribute("success", "Booking cancelled successfully");
         } catch (Exception e) {
             logger.error("Error cancelling booking: {}", e.getMessage());
-            redirectAttributes.addAttribute("error", e.getMessage());
-            return "redirect:/bookings";
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
         }
+        return "redirect:/bookings";
     }
 }
