@@ -1,5 +1,7 @@
 package com.Mathra.Salon.service;
 
+import com.Mathra.Salon.datastructures.AppointmentQueue;
+import com.Mathra.Salon.datastructures.AppointmentSorter;
 import com.Mathra.Salon.filemanager.BookingFileManager;
 import com.Mathra.Salon.model.Booking;
 import com.Mathra.Salon.model.User;
@@ -25,13 +27,25 @@ public class BookingFileService {
 
     private final UserFileService userFileService;
 
+    private final AppointmentQueue appointmentQueue;
+
 
     @Autowired
     public BookingFileService(BookingFileManager bookingFileManager, UserFileService userFileService) {
         this.bookingFileManager = bookingFileManager;
         this.userFileService = userFileService;
+        this.appointmentQueue = new AppointmentQueue();
+        initializeQueue();
     }
 
+    private void initializeQueue() {
+        List<Booking> allBookings = bookingFileManager.findAll();
+        for (Booking booking : allBookings) {
+            if (booking.getStatus() == Booking.Status.PENDING || booking.getStatus() == Booking.Status.CONFIRMED) {
+                appointmentQueue.enqueue(booking);
+            }
+        }
+    }
 
     public Booking createBooking(Booking booking) {
         if (booking.getId() != null) {
@@ -41,6 +55,11 @@ public class BookingFileService {
         boolean saved = bookingFileManager.save(booking);
         if (!saved) {
             throw new RuntimeException("Failed to save booking");
+        }
+
+        // Add to queue if it's a pending or confirmed booking
+        if (booking.getStatus() == Booking.Status.PENDING || booking.getStatus() == Booking.Status.CONFIRMED) {
+            appointmentQueue.enqueue(booking);
         }
 
         logger.info("Created booking: {}", booking);
@@ -57,8 +76,28 @@ public class BookingFileService {
             throw new RuntimeException("Failed to save booking");
         }
 
+        // Update queue if status changed
+        if (booking.getStatus() == Booking.Status.COMPLETED || booking.getStatus() == Booking.Status.CANCELLED) {
+            // Remove from queue if completed or cancelled
+            removeFromQueue(booking);
+        }
+
         logger.info("Updated booking: {}", booking);
         return booking;
+    }
+
+    private void removeFromQueue(Booking booking) {
+        AppointmentQueue tempQueue = new AppointmentQueue();
+        while (!appointmentQueue.isEmpty()) {
+            Booking current = appointmentQueue.dequeue();
+            if (!current.getId().equals(booking.getId())) {
+                tempQueue.enqueue(current);
+            }
+        }
+        // Restore the queue
+        while (!tempQueue.isEmpty()) {
+            appointmentQueue.enqueue(tempQueue.dequeue());
+        }
     }
 
     public List<Booking> findAllBookings() {
@@ -72,23 +111,12 @@ public class BookingFileService {
 
     private void loadUserDetails(Booking booking) {
         if (booking.getUser() != null && booking.getUser().getId() != null) {
-            try {
-                User fullUser = userFileService.findUserById(booking.getUser().getId());
-                booking.setUser(fullUser);
-            } catch (Exception e) {
-                logger.warn("Failed to load user for booking {}: {}", booking.getId(), e.getMessage());
-                // Keep the user with just the ID
-            }
+            User user = userFileService.findById(booking.getUser().getId());
+            booking.setUser(user);
         }
-
         if (booking.getAssignedStaff() != null && booking.getAssignedStaff().getId() != null) {
-            try {
-                User fullStaff = userFileService.findUserById(booking.getAssignedStaff().getId());
-                booking.setAssignedStaff(fullStaff);
-            } catch (Exception e) {
-                logger.warn("Failed to load staff for booking {}: {}", booking.getId(), e.getMessage());
-                // Keep the staff with just the ID
-            }
+            User staff = userFileService.findById(booking.getAssignedStaff().getId());
+            booking.setAssignedStaff(staff);
         }
     }
 
@@ -163,5 +191,21 @@ public class BookingFileService {
 
     public Booking cancelBooking(Long bookingId) {
         return updateBookingStatus(bookingId, Booking.Status.CANCELLED);
+    }
+
+    /**
+     * Get all pending and confirmed appointments sorted by time slot
+     * @return Array of sorted bookings
+     */
+    public Booking[] getSortedAppointments() {
+        return AppointmentSorter.sortQueue(appointmentQueue);
+    }
+
+    /**
+     * Get the next appointment in the queue
+     * @return The next booking or null if queue is empty
+     */
+    public Booking getNextAppointment() {
+        return appointmentQueue.peek();
     }
 }
