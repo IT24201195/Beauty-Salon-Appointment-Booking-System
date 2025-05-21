@@ -1,3 +1,5 @@
 1|admin|$2a$10$jPW6s.7/0ZqNrzvCAOq/3.SZBAQ3sCgKrIap415yMc0HrULTzlEtS|Admin User|admin@mathra.com|1234567890||ADMIN|2025-05-18T19:44:56.755550300
 2|staff|$2a$10$n5z8OkItq5Vvb.xQHSp4N.n4jItWAITO8/b1lpzq13UaH9aFG8Cr2|Staff User|staff@mathra.com|1234567891|Hair Styling|STAFF|2025-05-18T19:44:56.820550800
 3|user|$2a$10$bM804n8QS5OMtcc14Sp4o.sOS0JUk3eCWbxkWxweMwznoYF2n/Wq6|Regular User|user@example.com|1234567892||CUSTOMER|2025-05-18T19:44:56.891058400
+4|medhini|$2a$10$lClCHw6MvttcP5lB0LAw9.Mz13j9jUISFp6MiINkYL3wIBnLlcHI6|medhini|medhini@gmail.com|0766153897||CUSTOMER|2025-05-21T19:23:35.475751600
+5|kavi|$2a$10$iGZ.H9En6lVtGhVjqLQbp.XTlvg5/A3xaRyU3SAOXmuYvZWPlPPv.|kavinu palugaswewa|kavinupalu@gmail.com|0766153897||CUSTOMER|2025-05-21T19:27:52.133776100
