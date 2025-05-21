@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -76,27 +77,51 @@ public class StaffController {
      */
     @GetMapping("/dashboard")
     public String showStaffDashboard(Model model) {
-        // Get all pending bookings
-        List<Booking> pendingBookings = bookingFileService.findBookingsByStatus(Booking.Status.PENDING);
-        model.addAttribute("pendingBookings", pendingBookings);
+        try {
+            // Get today's date
+            LocalDate today = LocalDate.now();
 
-        // Get all confirmed bookings
-        List<Booking> confirmedBookings = bookingFileService.findBookingsByStatus(Booking.Status.CONFIRMED);
-        model.addAttribute("confirmedBookings", confirmedBookings);
+            // Get sorted appointments for today only
+            Booking[] sortedAppointments = bookingFileService.getSortedAppointments();
+            Booking[] todayAppointments = java.util.Arrays.stream(sortedAppointments)
+                    .filter(booking -> booking.getBookingDate().equals(today))
+                    .toArray(Booking[]::new);
+            model.addAttribute("sortedAppointments", todayAppointments);
 
-        // Get customer count
-        long customerCount = userFileService.findAllUsers().stream()
-                .filter(user -> user.getRole() == User.Role.CUSTOMER)
-                .count();
-        model.addAttribute("customerCount", customerCount);
+            // Get the next appointment for today
+            Booking nextAppointment = java.util.Arrays.stream(todayAppointments)
+                    .findFirst()
+                    .orElse(null);
+            model.addAttribute("nextAppointment", nextAppointment);
 
-        // Get booking stats
-        model.addAttribute("pendingCount", pendingBookings.size());
-        model.addAttribute("confirmedCount", confirmedBookings.size());
-        model.addAttribute("completedCount",
-                bookingFileService.findBookingsByStatus(Booking.Status.COMPLETED).size());
+            // Get all pending bookings
+            List<Booking> pendingBookings = bookingFileService.findBookingsByStatus(Booking.Status.PENDING);
+            model.addAttribute("pendingBookings", pendingBookings);
 
-        return "staff/dashboard";
+            // Get all confirmed bookings for today
+            List<Booking> confirmedBookings = bookingFileService.findBookingsByStatus(Booking.Status.CONFIRMED)
+                    .stream()
+                    .filter(booking -> booking.getBookingDate().equals(today))
+                    .toList();
+            model.addAttribute("confirmedBookings", confirmedBookings);
+
+            // Get customer count
+            long customerCount = userFileService.findAllUsers().stream()
+                    .filter(user -> user.getRole() == User.Role.CUSTOMER)
+                    .count();
+            model.addAttribute("customerCount", customerCount);
+
+            // Get booking stats
+            model.addAttribute("pendingCount", pendingBookings.size());
+            model.addAttribute("confirmedCount", confirmedBookings.size());
+            model.addAttribute("completedCount",
+                    bookingFileService.findBookingsByStatus(Booking.Status.COMPLETED).size());
+
+            return "staff/dashboard";
+        } catch (Exception e) {
+            model.addAttribute("error", "Error loading dashboard: " + e.getMessage());
+            return "staff/dashboard";
+        }
     }
 
     /**
@@ -113,10 +138,25 @@ public class StaffController {
      */
     @GetMapping("/bookings")
     public String showAllBookings(Model model) {
-        List<Booking> allBookings = bookingFileService.findAllBookings();
-        model.addAttribute("bookings", allBookings);
+        try {
+            // Get all bookings and sort them by date and time
+            List<Booking> allBookings = bookingFileService.findAllBookings();
+            
+            // Sort bookings by date and time
+            allBookings.sort((b1, b2) -> {
+                int dateComparison = b1.getBookingDate().compareTo(b2.getBookingDate());
+                if (dateComparison != 0) {
+                    return dateComparison;
+                }
+                return b1.getBookingTime().compareTo(b2.getBookingTime());
+            });
 
-        return "staff/bookings";
+            model.addAttribute("bookings", allBookings);
+            return "staff/bookings";
+        } catch (Exception e) {
+            model.addAttribute("error", "Error loading bookings: " + e.getMessage());
+            return "staff/bookings";
+        }
     }
 
     /**
@@ -139,16 +179,35 @@ public class StaffController {
             @PathVariable("id") Long bookingId,
             @RequestParam("status") Booking.Status status,
             RedirectAttributes redirectAttributes) {
-
         try {
+            Booking booking = bookingFileService.findById(bookingId);
+            if (booking == null) {
+                throw new RuntimeException("Booking not found");
+            }
+
+            // Validate status transition
+            if (!isValidStatusTransition(booking.getStatus(), status)) {
+                throw new RuntimeException("Invalid status transition from " + booking.getStatus() + " to " + status);
+            }
+
             bookingFileService.updateBookingStatus(bookingId, status);
-            redirectAttributes.addFlashAttribute("success",
-                    "Booking status updated to " + status);
+            redirectAttributes.addFlashAttribute("success", "Booking status updated to " + status);
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", e.getMessage());
         }
-
         return "redirect:/staff/bookings";
+    }
+
+    private boolean isValidStatusTransition(Booking.Status currentStatus, Booking.Status newStatus) {
+        if (currentStatus == null || newStatus == null) {
+            return false;
+        }
+
+        return switch (currentStatus) {
+            case PENDING -> newStatus == Booking.Status.CONFIRMED || newStatus == Booking.Status.CANCELLED;
+            case CONFIRMED -> newStatus == Booking.Status.COMPLETED || newStatus == Booking.Status.CANCELLED;
+            case COMPLETED, CANCELLED -> false;
+        };
     }
 
     /**
@@ -168,21 +227,25 @@ public class StaffController {
      */
     @GetMapping("/customers")
     public String showAllCustomers(Model model) {
-        List<User> users = userFileService.findAllUsers();
-        model.addAttribute("users", users);
+        try {
+            List<User> users = userFileService.findAllUsers();
+            model.addAttribute("users", users);
 
-        // Create a map of user ID to booking count
-        Map<Long, Integer> userBookingCounts = new HashMap<>();
-        List<Booking> allBookings = bookingFileService.findAllBookings();
+            Map<Long, Integer> userBookingCounts = new HashMap<>();
+            List<Booking> allBookings = bookingFileService.findAllBookings();
 
-        for (Booking booking : allBookings) {
-            if (booking.getUser() != null) {
-                Long userId = booking.getUser().getId();
-                userBookingCounts.put(userId, userBookingCounts.getOrDefault(userId, 0) + 1);
+            for (Booking booking : allBookings) {
+                if (booking.getUser() != null) {
+                    Long userId = booking.getUser().getId();
+                    userBookingCounts.put(userId, userBookingCounts.getOrDefault(userId, 0) + 1);
+                }
             }
-        }
 
-        model.addAttribute("userBookingCounts", userBookingCounts);
-        return "staff/customers";
+            model.addAttribute("userBookingCounts", userBookingCounts);
+            return "staff/customers";
+        } catch (Exception e) {
+            model.addAttribute("error", "Error loading customers: " + e.getMessage());
+            return "staff/customers";
+        }
     }
 }
