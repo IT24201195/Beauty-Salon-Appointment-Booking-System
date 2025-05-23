@@ -193,18 +193,12 @@ public class BookingFileService {
         return updateBookingStatus(bookingId, Booking.Status.CANCELLED);
     }
 
-    /**
-     * Get all pending and confirmed appointments sorted by time slot
-     * @return Array of sorted bookings
-     */
+
     public Booking[] getSortedAppointments() {
         return AppointmentSorter.sortQueue(appointmentQueue);
     }
 
-    /**
-     * Get the next appointment in the queue
-     * @return The next booking or null if queue is empty
-     */
+
     public Booking getNextAppointment() {
         return appointmentQueue.peek();
     }
